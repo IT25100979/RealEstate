@@ -1,0 +1,2 @@
+This is a text file to check the new repo
+with git remote add origin command
