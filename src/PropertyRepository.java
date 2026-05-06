@@ -1,10 +1,11 @@
 import com.propertyapp.model.Property;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PropertyRepository {
 
-    private ArrayList<Property> properties = new ArrayList<>();
+    private List<Property> properties = new ArrayList<>();
 
     // CREATE
     public boolean addProperty(Property p) {
@@ -15,11 +16,9 @@ public class PropertyRepository {
         return true;
     }
 
-    // READ ALL
-    public void getAllProperties() {
-        for (Property p : properties) {
-            p.display();
-        }
+    // READ ALL (for controller)
+    public List<Property> getAllPropertiesList() {
+        return properties;
     }
 
     // FIND BY ID
@@ -53,7 +52,7 @@ public class PropertyRepository {
         return false;
     }
 
-    // CHECK EMPTY
+    // CHECK EMPTY (optional)
     public boolean isEmpty() {
         return properties.isEmpty();
     }
