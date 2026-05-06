@@ -52,7 +52,7 @@ public class PropertyRepository {
         return false;
     }
 
-    // CHECK EMPTY (optional)
+    // CHECK EMPTY
     public boolean isEmpty() {
         return properties.isEmpty();
     }
