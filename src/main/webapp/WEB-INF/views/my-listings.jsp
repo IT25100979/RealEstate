@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Listings — NestVault</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.jsp" class="nav-logo">Nest<span>Vault</span></a>
+    <div class="nav-links">
+      <a href="index.jsp"       class="nav-link">Home</a>
+      <a href="properties.jsp"  class="nav-link">Properties</a>
+      <a href="search.jsp"      class="nav-link">Search</a>
+    </div>
+    <div class="nav-right">
+      <!--
+        JSP: Replace below with user info from session
+        <div class="user-pill">
+          <div class="user-avatar"><%= user.getFirstName().charAt(0) %><%= user.getLastName().charAt(0) %></div>
+          <span class="user-name"><%= user.getFirstName() %></span>
+        </div>
+        <form action="LogoutServlet" method="POST" style="display:inline">
+          <button type="submit" class="btn-ghost">Sign Out</button>
+        </form>
+      -->
+      <div class="user-pill">
+        <div class="user-avatar">JD</div>
+        <span class="user-name">Jane D.</span>
+      </div>
+      <button class="btn-ghost">Sign Out</button>
+    </div>
+  </nav>
+
+  <!--
+    BACK-END NOTE:
+    This page requires login — check session at top of JSP:
+      <% if (session.getAttribute("user") == null) { response.sendRedirect("login.jsp"); return; } %>
+    Load listings: List<Property> myProps = PropertyService.getByUser(userId);
+  -->
+
+  <section class="page-section" style="max-width: 820px; margin: 0 auto;">
+
+    <div class="section-header">
+      <div>
+        <h1 class="page-title">My Listings</h1>
+        <p style="font-size:13px;color:var(--txt2);margin-top:2px;">
+          Manage your property listings
+        </p>
+      </div>
+      <a href="add-property.jsp">
+        <button class="btn-primary">+ New Listing</button>
+      </a>
+    </div>
+
+    <!--
+      JSP: Replace static cards below with a loop:
+      <% if (myProps.isEmpty()) { %>
+        ... empty state ...
+      <% } else { for (Property p : myProps) { %>
+        ... card ...
+      <% } } %>
+    -->
+
+    <!-- Listing card 1 -->
+    <div class="my-listing-card">
+      <div class="my-listing-thumb">🏢</div>
+      <div class="my-listing-info">
+        <div class="my-listing-name">The Ritz Residences</div>
+        <div class="my-listing-meta">
+          House · 3891 Ranchview Dr, California ·
+          <span class="status-pill status-available" style="margin-left:4px">Available</span>
+        </div>
+      </div>
+      <div class="my-listing-price">$4,200/mo</div>
+      <div class="action-btn-group">
+        <a href="edit-property.html?id=1">
+          <button class="action-btn" title="Edit listing">
+            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+        </a>
+        <form action="DeletePropertyServlet" method="POST" style="display:inline">
+          <input type="hidden" name="propertyId" value="1">
+          <button type="submit" class="action-btn danger" title="Delete listing"
+                  onclick="return confirm('Delete this listing?')">
+            <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Listing card 2 -->
+    <div class="my-listing-card">
+      <div class="my-listing-thumb" style="background:linear-gradient(135deg,#0a1628,#1a2a4a)">🏡</div>
+      <div class="my-listing-info">
+        <div class="my-listing-name">Harbor View Cottage</div>
+        <div class="my-listing-meta">
+          House · 12 Marina Way, Florida ·
+          <span class="status-pill status-rented" style="margin-left:4px">Rented</span>
+        </div>
+      </div>
+      <div class="my-listing-price">$2,100/mo</div>
+      <div class="action-btn-group">
+        <a href="edit-property.html?id=5">
+          <button class="action-btn" title="Edit listing">
+            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+        </a>
+        <form action="DeletePropertyServlet" method="POST" style="display:inline">
+          <input type="hidden" name="propertyId" value="5">
+          <button type="submit" class="action-btn danger" title="Delete listing"
+                  onclick="return confirm('Delete this listing?')">
+            <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!--
+      EMPTY STATE (show when myProps.isEmpty()):
+      <div style="text-align:center;padding:60px 24px;color:var(--txt2);">
+        <div style="font-size:48px;margin-bottom:14px;">🏠</div>
+        <div style="font-family:var(--font-head);font-size:17px;font-weight:700;margin-bottom:6px;color:var(--txt);">
+          No listings yet
+        </div>
+        <p style="font-size:14px;margin-bottom:22px;">
+          Start by adding your first property listing.
+        </p>
+        <a href="add-property.jsp">
+          <button class="btn-primary btn-full" style="max-width:200px;">+ Add Property</button>
+        </a>
+      </div>
+    -->
+
+  </section>
+
+</body>
+</html>
