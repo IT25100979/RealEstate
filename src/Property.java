@@ -1,5 +1,3 @@
-package com.propertyapp.model;
-
 import jakarta.persistence.*;
 
 @Entity
