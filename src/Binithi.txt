@@ -1,0 +1,12 @@
+Completed:
+- Create property
+- Save property
+- List property
+
+To Do:
+- View single property (detail page)
+- Delete property
+- Edit property
+- Image support
+- Filtering
+- Search bar
