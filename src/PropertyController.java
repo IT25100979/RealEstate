@@ -1,39 +1,84 @@
 import com.propertyapp.model.Property;
 import com.propertyapp.repository.PropertyRepository;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/properties")
+@Controller
 public class PropertyController {
 
-    private PropertyRepository repo = new PropertyRepository();
+    @Autowired
+    private PropertyRepository propertyRepository;
 
-    // GET ALL
-    @GetMapping
-    public List<Property> getAll() {
-        return repo.getAllPropertiesList();
+    // ─────────────────────────────
+    // ADD PROPERTY (FROM HTML FORM)
+    // ─────────────────────────────
+    @PostMapping("/addProperty")
+    public String addProperty(
+            @RequestParam String title,
+            @RequestParam String type,
+            @RequestParam String listingType,
+            @RequestParam double price,
+            @RequestParam String status,
+
+            @RequestParam String address,
+            @RequestParam String city,
+            @RequestParam String state,
+            @RequestParam String zip,
+
+            @RequestParam(required = false, defaultValue = "0") int bedrooms,
+            @RequestParam(required = false, defaultValue = "0") int bathrooms,
+            @RequestParam(required = false, defaultValue = "0") int area,
+
+            @RequestParam(required = false) String description,
+
+            @RequestParam String listerName,
+            @RequestParam String listerPhone,
+            @RequestParam String listerEmail
+    ) {
+
+        Property property = new Property();
+
+        // Basic info
+        property.setTitle(title);
+        property.setType(type);
+        property.setListingType(listingType);
+        property.setPrice(price);
+        property.setStatus(status);
+
+        // Location
+        property.setAddress(address);
+        property.setCity(city);
+        property.setState(state);
+        property.setZip(zip);
+
+        // Details
+        property.setBedrooms(bedrooms);
+        property.setBathrooms(bathrooms);
+        property.setArea(area);
+        property.setDescription(description);
+
+        // Lister
+        property.setListerName(listerName);
+        property.setListerPhone(listerPhone);
+        property.setListerEmail(listerEmail);
+
+        // Save to DB
+        propertyRepository.save(property);
+
+        // redirect after success
+        return "redirect:/index.html";
     }
 
-    // ADD
-    @PostMapping
-    public String add(@RequestBody Property p) {
-        boolean added = repo.addProperty(p);
-        return added ? "Added successfully" : "ID already exists";
-    }
-
-    // UPDATE
-    @PutMapping("/{id}")
-    public String update(@PathVariable String id, @RequestBody Property p) {
-        boolean updated = repo.updateProperty(id, p.getLocation(), p.getPrice());
-        return updated ? "Updated successfully" : "Not found";
-    }
-
-    // DELETE
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) {
-        boolean deleted = repo.deleteProperty(id);
-        return deleted ? "Deleted successfully" : "Not found";
+    // ─────────────────────────────
+    // VIEW ALL PROPERTIES (optional)
+    // ─────────────────────────────
+    @GetMapping("/properties")
+    @ResponseBody
+    public java.util.List<Property> getAllProperties() {
+        return propertyRepository.findAll();
     }
 }
