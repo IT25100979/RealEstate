@@ -1,7 +1,7 @@
 public class Property {
     private String id;
     private String location;
-    private double price;
+    private int price;
 
     public Property(String id, String location, double price) {
         this.id = id;
