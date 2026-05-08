@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Properties — NestVault</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Nest<span>Vault</span></a>
+  <div class="nav-links">
+    <a href="index.html"       class="nav-link">Home</a>
+    <a href="properties.html"  class="nav-link active">Properties</a>
+    <a href="search.html"      class="nav-link">Search</a>
+  </div>
+  <div class="nav-right" id="nav-right">
+    <a href="login.html"><button class="btn-ghost">Sign In</button></a>
+    <a href="register.html"><button class="btn-primary">Sign Up</button></a>
+  </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<section class="page-section">
+  <div class="section-header">
+    <div>
+      <h1 class="page-title">All Properties</h1>
+      <p style="font-size:13px;color:var(--txt2);margin-top:2px">142 listings across all categories</p>
+    </div>
+    <!-- Filter chips -->
+    <div class="chip-group" id="filter-chips">
+      <button class="chip active" data-filter="all">All</button>
+      <button class="chip" data-filter="house">House</button>
+      <button class="chip" data-filter="apartment">Apartment</button>
+      <button class="chip" data-filter="villa">Villa</button>
+      <button class="chip" data-filter="commercial">Commercial</button>
+      <button class="chip" data-filter="rent">For Rent</button>
+      <button class="chip" data-filter="sale">For Sale</button>
+    </div>
+  </div>
+
+  <!-- Property Grid -->
+  <!-- ─────────────────────────────────────────────────────────────────
+       BACK-END NOTE:
+       Replace this static grid with a JSP loop over your property list.
+       Example:
+         <% for (Property p : properties) { %>
+           <a href="property-detail.jsp?id=<%= p.getId() %>" class="prop-card">
+             ... render p fields ...
+           </a>
+         <% } %>
+  ───────────────────────────────────────────────────────────────────── -->
+  <div class="prop-grid" id="prop-grid"></div>
+
+    <!-- <a href="property-detail.html?id=1" class="prop-card" data-type="house" data-listing="rent">
+      <div class="prop-card-img">🏢<span class="listing-badge badge-rent">For Rent</span></div>
+      <div class="prop-card-body">
+        <div class="prop-card-name">The Ritz Residences</div>
+        <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>3891 Ranchview Dr, California</div>
+        <div class="prop-card-footer">
+          <div class="prop-price">$4,200/mo</div>
+          <div class="prop-tags"><span class="prop-tag">3 bed</span><span class="prop-tag">2 bath</span></div>
+        </div>
+        <div class="prop-card-lister"><div class="lister-avatar">SK</div><span class="lister-name">Listed by Sarah K.</span></div>
+      </div>
+    </a>
+
+    <a href="property-detail.html?id=2" class="prop-card" data-type="apartment" data-listing="sale">
+      <div class="prop-card-img c2">🏡<span class="listing-badge badge-sale">For Sale</span></div>
+      <div class="prop-card-body">
+        <div class="prop-card-name">CityCenterDC Apartments</div>
+        <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>2972 Westheimer Rd, Illinois</div>
+        <div class="prop-card-footer">
+          <div class="prop-price">$320,000</div>
+          <div class="prop-tags"><span class="prop-tag">4 bed</span><span class="prop-tag">3 bath</span></div>
+        </div>
+        <div class="prop-card-lister"><div class="lister-avatar">MT</div><span class="lister-name">Listed by Mark T.</span></div>
+      </div>
+    </a>
+
+    <a href="property-detail.html?id=3" class="prop-card" data-type="apartment" data-listing="rent">
+      <div class="prop-card-img c3">🏙️<span class="listing-badge badge-rent">For Rent</span></div>
+      <div class="prop-card-body">
+        <div class="prop-card-name">Skyline Tower Suite</div>
+        <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>445 Park Ave, New York</div>
+        <div class="prop-card-footer">
+          <div class="prop-price">$7,500/mo</div>
+          <div class="prop-tags"><span class="prop-tag">5 bed</span><span class="prop-tag">4 bath</span></div>
+        </div>
+        <div class="prop-card-lister"><div class="lister-avatar">PM</div><span class="lister-name">Listed by Priya M.</span></div>
+      </div>
+    </a>
+
+    <a href="property-detail.html?id=4" class="prop-card" data-type="villa" data-listing="sale">
+      <div class="prop-card-img c4">🏠<span class="listing-badge badge-sale">For Sale</span></div>
+      <div class="prop-card-body">
+        <div class="prop-card-name">Green Valley Villa</div>
+        <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>78 Hillcrest Blvd, Texas</div>
+        <div class="prop-card-footer">
+          <div class="prop-price">$1,200,000</div>
+          <div class="prop-tags"><span class="prop-tag">6 bed</span><span class="prop-tag">5 bath</span></div>
+        </div>
+        <div class="prop-card-lister"><div class="lister-avatar">CR</div><span class="lister-name">Listed by Carlos R.</span></div>
+      </div>
+    </a>
+
+    <a href="property-detail.html?id=5" class="prop-card" data-type="house" data-listing="rent">
+      <div class="prop-card-img">🏘️<span class="listing-badge badge-rent">For Rent</span></div>
+      <div class="prop-card-body">
+        <div class="prop-card-name">Harbor View Cottage</div>
+        <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>12 Marina Way, Florida</div>
+        <div class="prop-card-footer">
+          <div class="prop-price">$2,100/mo</div>
+          <div class="prop-tags"><span class="prop-tag">2 bed</span><span class="prop-tag">1 bath</span></div>
+        </div>
+        <div class="prop-card-lister"><div class="lister-avatar">EL</div><span class="lister-name">Listed by Emma L.</span></div>
+      </div>
+    </a>
+
+    <a href="property-detail.html?id=6" class="prop-card" data-type="commercial" data-listing="rent">
+      <div class="prop-card-img c3">🏗️<span class="listing-badge badge-rent">For Rent</span></div>
+      <div class="prop-card-body">
+        <div class="prop-card-name">Midtown Office Suite</div>
+        <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>300 5th Ave, New York</div>
+        <div class="prop-card-footer">
+          <div class="prop-price">$5,800/mo</div>
+          <div class="prop-tags"><span class="prop-tag">2,400 sqft</span></div>
+        </div>
+        <div class="prop-card-lister"><div class="lister-avatar">DC</div><span class="lister-name">Listed by David C.</span></div>
+      </div>
+    </a>
+
+  </div> -->
+</section>
+
+<script>
+  /* ── Filter chip logic ── */
+  document.getElementById('filter-chips').addEventListener('click', function(e) {
+    const btn = e.target.closest('.chip');
+    if (!btn) return;
+    this.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('#prop-grid .prop-card').forEach(card => {
+      if (filter === 'all') {
+        card.style.display = '';
+      } else if (filter === 'rent' || filter === 'sale') {
+        card.style.display = card.dataset.listing === filter ? '' : 'none';
+      } else {
+        card.style.display = card.dataset.type === filter ? '' : 'none';
+      }
+    });
+  });
+</script>
+
+<!-- new script added - Binithi-->
+<script>
+  async function loadProperties() {
+      const res = await fetch("http://localhost:8080/properties");
+      const data = await res.json();
+
+      const grid = document.getElementById("prop-grid");
+
+      grid.innerHTML = data.map(p => `
+          <a href="property-detail.html?id=${p.id}" class="prop-card">
+
+              <div class="prop-card-img">
+                  🏡
+                  <span class="listing-badge ${p.listingType === 'rent' ? 'badge-rent' : 'badge-sale'}">
+                      ${p.listingType === 'rent' ? 'For Rent' : 'For Sale'}
+                  </span>
+              </div>
+
+              <div class="prop-card-body">
+                  <div class="prop-card-name">${p.title}</div>
+
+                  <div class="prop-card-loc">
+                      📍 ${p.city}, ${p.state}
+                  </div>
+
+                  <div class="prop-card-footer">
+                      <div class="prop-price">
+                          ${p.listingType === 'rent' ? '$' + p.price + '/mo' : '$' + p.price}
+                      </div>
+
+                      <div class="prop-tags">
+                          <span class="prop-tag">${p.bedrooms} bed</span>
+                          <span class="prop-tag">${p.bathrooms} bath</span>
+                      </div>
+                  </div>
+
+                  <div class="prop-card-lister">
+                      <div class="lister-avatar">${p.listerName ? p.listerName[0] : 'U'}</div>
+                      <span class="lister-name">Listed by ${p.listerName}</span>
+                  </div>
+              </div>
+
+          </a>
+      `).join("");
+  }
+
+  loadProperties();
+</script>
+
+</body>
+</html>
