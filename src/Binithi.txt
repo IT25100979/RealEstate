@@ -3,12 +3,12 @@ Completed:
 - Save property
 - List property
 - View single property (detail page)
-
-To Do:
 - Delete property
     -> property is removed from backend
     -> user is redirected to /properties.html
     -> list updates
+
+To Do:
 - Edit property
 - Image support
 - Filtering
