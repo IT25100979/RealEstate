@@ -6,7 +6,11 @@ Completed:
 
 To Do:
 - Delete property
+    -> property is removed from backend
+    -> user is redirected to /properties.html
+    -> list updates
 - Edit property
 - Image support
 - Filtering
 - Search bar
+- Data validation
