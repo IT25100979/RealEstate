@@ -125,13 +125,21 @@
     <a href="edit-property.html?id=2">
       <button class="btn-primary">Edit Listing</button>
     </a>
-    <form action="DeletePropertyServlet" method="POST" style="display:inline">
-      <input type="hidden" name="propertyId" value="2">
-      <button type="submit" class="btn-danger"
-              onclick="return confirm('Are you sure you want to delete this listing?')">
-        Delete Listing
-      </button>
-    </form>
+
+    <!-- Edited this bit to work with spring boot - Binithi -->
+    <!-- DELETE PROPERTY -->
+
+<!--    <form action="/deleteProperty" method="POST">-->
+<!--      <input type="hidden" name="id" id="deleteId">-->
+<!--      <button type="submit" class="btn-danger"-->
+<!--              onclick="return confirm('Are you sure?')">-->
+<!--        Delete Listing-->
+<!--      </button>-->
+<!--    </form>-->
+    <button class="btn-danger" onclick="deleteProperty()">
+      Delete Listing
+    </button>
+
   </div>
   <!-- JSP: <% } %> -->
 
@@ -234,6 +242,43 @@
   }
 
   loadProperty();
+</script>
+
+<!-- script for delete property - Binithi -->
+<script>
+  function deleteProperty() {
+
+    const id = new URLSearchParams(window.location.search).get("id");
+
+    if (!id) {
+      alert("No property ID found");
+      return;
+    }
+
+    if (!confirm("Are you sure you want to delete this property?")) return;
+
+    fetch("/deleteProperty?id=" + id, {
+      method: "POST"
+    })
+    .then(res => res.text())
+    .then(data => {
+
+      console.log("Response from server:", data);
+
+      if (data.trim() === "success") {
+        alert("Deleted successfully");
+        window.location.href = "/properties.html";
+      } else {
+        alert("Delete failed: " + data);
+      }
+
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Request failed");
+    });
+
+  }
 </script>
 
 </body>

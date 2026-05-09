@@ -65,7 +65,8 @@ public class PropertyController {
         propertyRepository.save(property);
 
         // redirect after success
-        return "redirect:/index.html";
+        System.out.println("Added property: " + property.getTitle());
+        return "redirect:/properties.html";
     }
 
     // VIEW ALL PROPERTIES
@@ -80,6 +81,22 @@ public class PropertyController {
     @ResponseBody
     public Property getPropertyById(@PathVariable Long id) {
         return propertyRepository.findById(id).orElse(null);
+    }
+
+    //DELETE PROPERTY
+    /*@PostMapping("/deleteProperty")
+    public String deleteProperty(@RequestParam Long id) {
+        propertyRepository.deleteById(id);
+        System.out.println("Deleted property with id: " + id);
+        return "redirect:/properties.html";
+    }*/
+
+    @PostMapping("/deleteProperty")
+    @ResponseBody
+    public String deleteProperty(@RequestParam Long id) {
+        propertyRepository.deleteById(id);
+        System.out.println("Deleted property: " + id);
+        return "success";
     }
 
 }
