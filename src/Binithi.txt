@@ -2,9 +2,9 @@ Completed:
 - Create property
 - Save property
 - List property
+- View single property (detail page)
 
 To Do:
-- View single property (detail page)
 - Delete property
 - Edit property
 - Image support
