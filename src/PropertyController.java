@@ -2,10 +2,7 @@ import com.propertyapp.model.Property;
 import com.propertyapp.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class PropertyController {
@@ -13,9 +10,7 @@ public class PropertyController {
     @Autowired
     private PropertyRepository propertyRepository;
 
-    // ─────────────────────────────
     // ADD PROPERTY (FROM HTML FORM)
-    // ─────────────────────────────
     @PostMapping("/addProperty")
     public String addProperty(
             @RequestParam String title,
@@ -73,12 +68,18 @@ public class PropertyController {
         return "redirect:/index.html";
     }
 
-    // ─────────────────────────────
-    // VIEW ALL PROPERTIES (optional)
-    // ─────────────────────────────
+    // VIEW ALL PROPERTIES
     @GetMapping("/properties")
     @ResponseBody
     public java.util.List<Property> getAllProperties() {
         return propertyRepository.findAll();
     }
+
+    //GET PROPERTY BY ID
+    @GetMapping("/properties/{id}")
+    @ResponseBody
+    public Property getPropertyById(@PathVariable Long id) {
+        return propertyRepository.findById(id).orElse(null);
+    }
+
 }
