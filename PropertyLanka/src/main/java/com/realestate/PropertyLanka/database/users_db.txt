@@ -1,0 +1,1 @@
+U001|JohnRealEstate|john@email.com|password123|0779999999|Colombo|Seller|pic1.png|Active
