@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository {
-    private final String FILE_NAME = "src/common/database/users_db.txt";
+    private final String FILE_NAME = "src/main/resources/database/users_db.txt";
 
     // 1. CREATE (Register)
     public void save(User user) {

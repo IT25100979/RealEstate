@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InquiryRepository {
-    private final String FILE_NAME = "src/common/database/inquiries_db.txt";
+    private final String FILE_NAME = "src/main/resources/database/inquiries_db.txt";
 
     // 1. CREATE
     public void save(Inquiry inquiry) {

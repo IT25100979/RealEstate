@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PropertyRepository {
-    private final String FILE_NAME = "src/common/database/properties_db.txt";
+    private final String FILE_NAME = "src/main/resources/database/properties_db.txt";
 
     // 1. CREATE
     public void save(Property property) {
