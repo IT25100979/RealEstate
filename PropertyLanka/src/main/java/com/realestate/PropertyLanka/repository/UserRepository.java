@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository {
-    private final String FILE_NAME = "src/main/resources/database/users_db.txt";
+    private final String FILE_NAME = "PropertyLanka/src/main/resources/database/users_db.txt";
 
     // 1. CREATE (Register)
     public void save(User user) {
+        System.out.println("📂 SAVING TO EXACT PATH: " + new java.io.File(FILE_NAME).getAbsolutePath());
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
             writer.write(user.toDatabaseString());
             writer.newLine();

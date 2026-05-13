@@ -1,1 +1,2 @@
 U001|JohnRealEstate|john@email.com|password123|0779999999|Colombo|Seller|pic1.png|Active
+U1778625705166|Colin|colin1234@gmail.com|12345|12345|Not Provided|BUYER|default.png|Active
