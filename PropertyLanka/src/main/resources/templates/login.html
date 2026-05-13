@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | EstateSaaS</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="auth-container" style="padding: 100px; text-align: center;">
+    <form action="/login" method="post" class="glass-card" style="max-width: 400px; margin: auto; padding: 30px;">
+        <h2>Welcome Back</h2>
+
+        <p th:if="${error}" style="color: red;" th:text="${error}"></p>
+
+        <div style="margin-bottom: 15px;">
+            <label>Email:</label><br>
+            <input type="email" name="email" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label>Password:</label><br>
+            <input type="password" name="password" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Log in</button>
+        <p style="margin-top: 15px;">Don't have an account? <a href="/register">Sign up</a></p>
+    </form>
+</div>
+</body>
+</html>
