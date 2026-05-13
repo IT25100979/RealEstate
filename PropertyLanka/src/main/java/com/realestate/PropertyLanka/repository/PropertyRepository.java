@@ -26,14 +26,33 @@ public class PropertyRepository {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split("\\|");
-                if (data.length == 9) {
-                    Property p = new Property(data[0], data[1], data[2], Double.parseDouble(data[3]),
-                            data[4], data[5], data[6], data[7], data[8]);
+                if (data.length == 19) {
+                    Property p = new Property(
+                            data[0],                        // id
+                            data[1],                        // title
+                            data[2],                        // description
+                            data[3],                        // propertyType
+                            data[4],                        // listingType
+                            Double.parseDouble(data[5]),    // price
+                            data[6],                        // address
+                            data[7],                        // city
+                            data[8],                        // state
+                            data[9],                        // zip
+                            Integer.parseInt(data[10]),     // bedrooms
+                            Integer.parseInt(data[11]),     // bathrooms
+                            Double.parseDouble(data[12]),   // area
+                            data[13],                       // status
+                            data[14],                       // image
+                            data[15],                       // createdDate
+                            data[16],                       // listerName
+                            data[17],                       // listerPhone
+                            data[18]                        // listerEmail
+                    );
                     properties.add(p);
                 }
             }
         } catch (FileNotFoundException e) {
-            // File doesn't exist yet, which is fine! Just return the empty list.
+            // Fine, no data yet
         } catch (IOException e) {
             System.out.println("Error reading database: " + e.getMessage());
         }

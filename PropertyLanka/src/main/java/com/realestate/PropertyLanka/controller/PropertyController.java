@@ -12,9 +12,15 @@ public class PropertyController {
         this.service = new PropertyService();
     }
 
-    public void createNewProperty(String id, String title, String desc, double price, String address, String type, String status, String image, String date) {
+    public void createNewProperty(String id,
+                                  String title, String description, String propertyType, String listingType,
+                                  double price,
+                                  String address, String city, String state, String zip,
+                                  int bedrooms, int bathrooms, double area,
+                                  String status, String image, String createdDate,
+                                  String listerName, String listerPhone, String listerEmail) {
         System.out.println("\n--- API: POST /properties ---");
-        Property newProp = new Property(id, title, desc, price, address, type, status, image, date);
+        Property newProp = new Property (id, title, description, propertyType, listingType, price, address, city, state, zip, bedrooms, bathrooms, area, status, image, createdDate, listerName, listerPhone, listerEmail);
         service.addProperty(newProp);
     }
 
