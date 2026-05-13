@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List a Property — PropertyLanka</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/" class="nav-logo">Property<span>Lanka</span></a>
+    <div class="nav-links">
+      <a href="/"       class="nav-link">Home</a>
+      <a href="/properties"  class="nav-link">Properties</a>
+      <a href="/search"      class="nav-link">Search</a>
+    </div>
+    <div class="nav-right">
+      <!-- If user is logged in, show their name. Otherwise redirect to login. -->
+      <a href="/login"><button class="btn-ghost">Sign In</button></a>
+      <a href="/register"><button class="btn-primary">Sign Up</button></a>
+          <!-- Theme Toggle -->
+      <label class="theme-toggle" title="Toggle light/dark mode">
+        <input type="checkbox" class="theme-checkbox">
+        <div class="theme-track">
+          <span class="icon-moon">🌙</span>
+          <span class="icon-sun">☀️</span>
+        </div>
+        <span class="theme-thumb">🌙</span>
+      </label>
+    </div>
+  </nav>
+
+  <!--
+    BACK-END NOTE:
+    Action: AddPropertyServlet  (for new listings)
+    Action: EditPropertyServlet (for editing — pre-fill values from DB/file)
+    Method: POST
+    After success: redirect to my-listings.jsp
+    Require session check at top of servlet — redirect to login.jsp if not logged in.
+  -->
+
+  <section class="page-section" style="max-width: 720px; margin: 0 auto;">
+
+    <h1 class="page-title" id="form-heading">List a Property</h1>
+    <p class="page-subtitle">Your listing will be visible to all visitors once published.</p>
+
+    <form action="AddPropertyServlet" method="POST" enctype="multipart/form-data">
+
+      <!-- ── BASIC INFO ── -->
+      <div class="form-section-bar">Basic Information</div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label for="title">Property Title *</label>
+          <input type="text" id="title" name="title" placeholder="e.g. Modern Downtown Flat" required>
+        </div>
+        <div class="form-group">
+          <label for="type">Property Type *</label>
+          <select id="type" name="type" required>
+            <option value="" disabled selected>Select type...</option>
+            <option value="house">House</option>
+            <option value="apartment">Apartment</option>
+            <option value="villa">Villa</option>
+            <option value="commercial">Commercial</option>
+            <option value="land">Land</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid-3">
+        <div class="form-group">
+          <label for="listing">Listing Type *</label>
+          <select id="listing" name="listingType" required>
+            <option value="rent">For Rent</option>
+            <option value="sale">For Sale</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="price">Price ($) *</label>
+          <input type="number" id="price" name="price" placeholder="e.g. 1500" min="0" required>
+        </div>
+        <div class="form-group">
+          <label for="status">Status *</label>
+          <select id="status" name="status" required>
+            <option value="available">Available</option>
+            <option value="rented">Rented</option>
+            <option value="sold">Sold</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ── LOCATION ── -->
+      <div class="form-section-bar">Location</div>
+
+      <div class="form-group">
+        <label for="address">Street Address *</label>
+        <input type="text" id="address" name="address" placeholder="123 Main Street" required>
+      </div>
+
+      <div class="form-grid-3">
+        <div class="form-group">
+          <label for="city">City *</label>
+          <input type="text" id="city" name="city" placeholder="Los Angeles" required>
+        </div>
+        <div class="form-group">
+          <label for="state">State *</label>
+          <input type="text" id="state" name="state" placeholder="California" required>
+        </div>
+        <div class="form-group">
+          <label for="zip">ZIP Code</label>
+          <input type="text" id="zip" name="zip" placeholder="90001">
+        </div>
+      </div>
+
+      <!-- ── PROPERTY DETAILS ── -->
+      <div class="form-section-bar">Property Details</div>
+
+      <div class="form-grid-3">
+        <div class="form-group">
+          <label for="beds">Bedrooms</label>
+          <input type="number" id="beds" name="bedrooms" placeholder="3" min="0">
+        </div>
+        <div class="form-group">
+          <label for="baths">Bathrooms</label>
+          <input type="number" id="baths" name="bathrooms" placeholder="2" min="0">
+        </div>
+        <div class="form-group">
+          <label for="area">Area (sq ft)</label>
+          <input type="number" id="area" name="area" placeholder="1400" min="0">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="desc">Description</label>
+        <textarea id="desc" name="description" rows="4"
+                  placeholder="Describe the property — key features, nearby amenities, transport links..."></textarea>
+      </div>
+
+      <!-- ── CONTACT DETAILS ── -->
+      <div class="form-section-bar">Your Contact Details</div>
+      <p style="font-size:12px;color:var(--txt3);margin-bottom:14px;margin-top:-6px;">
+        These will be shown to interested users on your listing page.
+      </p>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label for="lname">Your Name *</label>
+          <input type="text" id="lname" name="listerName" placeholder="Jane Smith" required>
+        </div>
+        <div class="form-group">
+          <label for="lphone">Phone Number *</label>
+          <input type="tel" id="lphone" name="listerPhone" placeholder="+1 555 000 0000" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lemail">Email Address *</label>
+        <input type="email" id="lemail" name="listerEmail" placeholder="jane@email.com" required>
+      </div>
+
+      <!-- ── PHOTOS ── -->
+      <div class="form-section-bar">Photos</div>
+
+      <div class="upload-zone" onclick="document.getElementById('photo-input').click()">
+        <svg class="upload-icon" viewBox="0 0 24 24">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <p>Drag and drop images here, or <span>browse files</span></p>
+        <small>PNG, JPG — up to 5 MB each. Max 8 photos.</small>
+      </div>
+      <input type="file" id="photo-input" name="photos" multiple accept="image/*" style="display:none"
+             onchange="previewPhotos(this)">
+
+      <!-- Photo preview strip -->
+      <div id="photo-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;"></div>
+
+      <!-- ── SUBMIT ── -->
+      <div style="display:flex;justify-content:flex-end;gap:12px;padding-top:8px;border-top:1px solid var(--bdr);margin-top:8px;">
+        <a href="/my-listings">
+          <button type="button" class="btn-ghost">Cancel</button>
+        </a>
+        <button type="submit" class="btn-primary" style="padding:11px 28px;font-size:15px;">
+          Publish Listing
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <script>
+    function previewPhotos(input) {
+      const preview = document.getElementById('photo-preview');
+      preview.innerHTML = '';
+      Array.from(input.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.style.cssText = 'width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid var(--bdr)';
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+
+  <script src="/js/theme-toggle.js"></script>
+</body>
+</html>
