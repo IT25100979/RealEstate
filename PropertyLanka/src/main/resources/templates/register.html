@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up | EstateSaaS</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="auth-container" style="padding: 100px; text-align: center;">
+    <form action="/register" method="post" class="glass-card" style="max-width: 400px; margin: auto; padding: 30px;">
+        <h2>Create an Account</h2>
+
+        <div style="margin-bottom: 15px;">
+            <label>Full Name:</label><br>
+            <input type="text" name="username" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label>Email:</label><br>
+            <input type="email" name="email" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label>Password:</label><br>
+            <input type="password" name="password" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label>Phone Number:</label><br>
+            <input type="text" name="phone" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label>I want to:</label><br>
+            <select name="role" required style="width: 100%; padding: 8px;">
+                <option value="BUYER">Buy / Rent Properties</option>
+                <option value="SELLER">Sell / List Properties</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
+        <p style="margin-top: 15px;">Already have an account? <a href="/login">Log in</a></p>
+    </form>
+</div>
+</body>
+</html>
