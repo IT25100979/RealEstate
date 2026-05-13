@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>List a Property | EstateSaaS</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="dashboard-body">
+<nav class="pill-nav" style="margin-top: 20px;">
+  <div class="nav-left"><span class="logo-text">Seller Central</span></div>
+  <div class="nav-right">
+    <a href="/seller-dashboard" class="btn-contact">Back to Dashboard</a>
+  </div>
+</nav>
+
+<div style="padding: 50px; display: flex; justify-content: center;">
+  <form action="/add-property" method="post" class="glass-card" style="width: 600px; padding: 40px;">
+    <h2 style="margin-bottom: 20px;">List a New Property</h2>
+
+    <div style="margin-bottom: 15px;">
+      <label>Property Title:</label><br>
+      <input type="text" name="title" required placeholder="e.g. Modern Beachfront Villa" style="width: 100%; padding: 8px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label>Description:</label><br>
+      <textarea name="description" required rows="4" style="width: 100%; padding: 8px;"></textarea>
+    </div>
+
+    <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+      <div style="flex: 1;">
+        <label>Price (Rs.):</label><br>
+        <input type="number" name="price" required min="1" style="width: 100%; padding: 8px;">
+      </div>
+      <div style="flex: 1;">
+        <label>Property Type:</label><br>
+        <select name="propertyType" required style="width: 100%; padding: 8px;">
+          <option value="House">House</option>
+          <option value="Apartment">Apartment</option>
+          <option value="Land">Land</option>
+          <option value="Commercial">Commercial</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label>Address:</label><br>
+      <input type="text" name="address" required style="width: 100%; padding: 8px;">
+    </div>
+
+    <div style="margin-bottom: 30px;">
+      <label>Image Link (Temporary Text Input):</label><br>
+      <input type="text" name="image" value="default-house.jpg" required style="width: 100%; padding: 8px;">
+      <small style="color: #ccc;">We will build actual image uploading in a later phase!</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="width: 100%;">Post Listing</button>
+  </form>
+</div>
+</body>
+</html>

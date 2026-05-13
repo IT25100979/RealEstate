@@ -6,55 +6,74 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PropertyRepository {
-    private final String FILE_NAME = "src/main/resources/database/properties_db.txt";
+    // Make sure your path matches what we fixed in Phase 1!
+    private final String FILE_NAME = "PropertyLanka/src/main/resources/database/properties_db.txt";
 
     // 1. CREATE
     public void save(Property property) {
-        // FileWriter(..., true) appends to the end of the file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
+        File file = new File(FILE_NAME);
+        if (file.getParentFile() != null) {
+            file.getParentFile().mkdirs();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             writer.write(property.toDatabaseString());
             writer.newLine();
+            System.out.println("💾 PROPERTY SAVED: " + file.getAbsolutePath());
         } catch (IOException e) {
-            System.out.println("Error saving to database: " + e.getMessage());
+            System.out.println("❌ Error saving property to database: " + e.getMessage());
         }
     }
 
     // 2. READ ALL
     public List<Property> findAll() {
         List<Property> properties = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+        File file = new File(FILE_NAME);
+
+        if (!file.exists()) return properties; // Return empty list if no file exists yet
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split("\\|");
-                if (data.length == 9) {
-                    Property p = new Property(data[0], data[1], data[2], Double.parseDouble(data[3]),
-                            data[4], data[5], data[6], data[7], data[8]);
+
+                // 🚨 Changed to 10 to account for sellerId
+                if (data.length == 10) {
+                    Property p = new Property(
+                            data[0], // id
+                            data[1], // sellerId (NEW)
+                            data[2], // title
+                            data[3], // description
+                            Double.parseDouble(data[4]), // price
+                            data[5], // address
+                            data[6], // propertyType
+                            data[7], // status
+                            data[8], // image
+                            data[9]  // createdDate
+                    );
                     properties.add(p);
                 }
             }
-        } catch (FileNotFoundException e) {
-            // File doesn't exist yet, which is fine! Just return the empty list.
         } catch (IOException e) {
-            System.out.println("Error reading database: " + e.getMessage());
+            System.out.println("❌ Error reading property database: " + e.getMessage());
         }
         return properties;
     }
 
     // 3. UPDATE
     public void update(Property updatedProperty) {
-        List<Property> properties = findAll(); // Get all properties
+        List<Property> properties = findAll();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, false))) {
-            // false = Overwrite the entire file
             for (Property p : properties) {
                 if (p.getId().equals(updatedProperty.getId())) {
-                    writer.write(updatedProperty.toDatabaseString()); // Write the new data
+                    writer.write(updatedProperty.toDatabaseString());
                 } else {
-                    writer.write(p.toDatabaseString()); // Keep the old data
+                    writer.write(p.toDatabaseString());
                 }
                 writer.newLine();
             }
         } catch (IOException e) {
-            System.out.println("Error updating database.");
+            System.out.println("❌ Error updating property database.");
         }
     }
 
@@ -63,13 +82,13 @@ public class PropertyRepository {
         List<Property> properties = findAll();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, false))) {
             for (Property p : properties) {
-                if (!p.getId().equals(id)) { // Only write back the ones that DO NOT match the ID
+                if (!p.getId().equals(id)) {
                     writer.write(p.toDatabaseString());
                     writer.newLine();
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error deleting from database.");
+            System.out.println("❌ Error deleting property from database.");
         }
     }
 }

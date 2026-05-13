@@ -4,6 +4,8 @@ package com.realestate.PropertyLanka.service;
 import com.realestate.PropertyLanka.model.User;
 import com.realestate.PropertyLanka.repository.UserRepository;
 
+import java.util.List;
+
 public class UserService {
     private UserRepository repository;
 
@@ -22,6 +24,11 @@ public class UserService {
         }
         repository.save(newUser);
         System.out.println("✅ Service: User '" + newUser.getUsername() + "' registered successfully.");
+    }
+
+    // READ ALL (For Admin Dashboard)
+    public List<User> getAllUsers() {
+        return repository.findAll();
     }
 
     // LOGIN

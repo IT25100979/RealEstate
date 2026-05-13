@@ -35,6 +35,21 @@ public class User {
     public String getEmail() { return email; }
     public String getPassword() { return password; }
     public String getRole() { return role; }
+    public String getActiveStatus() {
+        return activeStatus;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
 
     // Setters (For editing profile)
     public void setUsername(String username) { this.username = username; }

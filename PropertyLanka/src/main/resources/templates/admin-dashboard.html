@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Portal</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav class="pill-nav" style="margin: 20px;">
+  <div class="nav-left"><span class="logo-text" style="color: red;">Admin Portal</span></div>
+  <div class="nav-right">
+    <span style="color: white; margin-right: 15px;">Auth Level: <strong th:text="${adminUser.role}"></strong></span>
+    <a href="/logout" class="btn-contact">Logout</a>
+  </div>
+</nav>
+
+<main style="padding: 50px; color: white;">
+  <h2>User Management</h2>
+  <div class="glass-card" style="padding: 20px; margin-bottom: 40px;">
+    <table style="width: 100%; text-align: left;">
+      <tr><th>Role</th><th>Name</th><th>Email</th><th>Status</th><th>Actions</th></tr>
+      <tr th:each="u : ${allUsers}" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <td><span class="badge purple-badge" th:text="${u.role}"></span></td>
+        <td th:text="${u.username}"></td>
+        <td th:text="${u.email}"></td>
+        <td th:text="${u.activeStatus}"></td>
+        <td>
+          <a href="#" class="btn" style="padding: 5px; background: red; color: white;">Ban</a>
+          <a href="#" class="btn" th:if="${adminUser.role == 'PRIMARY_ADMIN' and u.role == 'ADMIN'}" style="padding: 5px; background: gold; color: black;">Make Primary</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <h2>Property Moderation</h2>
+  <div class="glass-card" style="padding: 20px;">
+    <table style="width: 100%; text-align: left;">
+      <tr><th>ID</th><th>Title</th><th>Actions</th></tr>
+      <tr th:each="prop : ${allProperties}">
+        <td th:text="${prop.id}"></td>
+        <td th:text="${prop.title}"></td>
+        <td>
+          <a href="#" class="btn" style="padding: 5px; background: red; color: white;">Force Delete Listing</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</main>
+</body>
+</html>
