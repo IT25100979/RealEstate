@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Property | EstateSaaS</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="dashboard-body">
+<nav class="pill-nav" style="margin-top: 20px;">
+    <div class="nav-left"><span class="logo-text">Seller Central</span></div>
+    <div class="nav-right">
+        <a href="/seller-dashboard" class="btn-contact">Cancel</a>
+    </div>
+</nav>
+
+<div style="padding: 50px; display: flex; justify-content: center;">
+    <form action="/edit-property" method="post" class="glass-card" style="width: 600px; padding: 40px;">
+        <h2 style="margin-bottom: 20px;">Edit Property</h2>
+
+        <input type="hidden" name="id" th:value="${property.id}">
+
+        <div style="margin-bottom: 15px;">
+            <label>Property Title:</label><br>
+            <input type="text" name="title" th:value="${property.title}" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label>Description:</label><br>
+            <textarea name="description" th:text="${property.description}" required rows="4" style="width: 100%; padding: 8px;"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+            <div style="flex: 1;">
+                <label>Price (Rs.):</label><br>
+                <input type="number" name="price" th:value="${property.price}" required min="1" style="width: 100%; padding: 8px;">
+            </div>
+            <div style="flex: 1;">
+                <label>Property Type:</label><br>
+                <select name="propertyType" required style="width: 100%; padding: 8px;">
+                    <option value="House" th:selected="${property.propertyType == 'House'}">House</option>
+                    <option value="Apartment" th:selected="${property.propertyType == 'Apartment'}">Apartment</option>
+                    <option value="Land" th:selected="${property.propertyType == 'Land'}">Land</option>
+                    <option value="Commercial" th:selected="${property.propertyType == 'Commercial'}">Commercial</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+            <div style="flex: 1;">
+                <label>Address:</label><br>
+                <input type="text" name="address" th:value="${property.address}" required style="width: 100%; padding: 8px;">
+            </div>
+            <div style="flex: 1;">
+                <label>Status:</label><br>
+                <select name="status" required style="width: 100%; padding: 8px;">
+                    <option value="Available" th:selected="${property.status == 'Available'}">Available</option>
+                    <option value="Sold" th:selected="${property.status == 'Sold'}">Sold</option>
+                    <option value="Rented" th:selected="${property.status == 'Rented'}">Rented</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <label>Image Link:</label><br>
+            <input type="text" name="image" th:value="${property.image}" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Save Changes</button>
+    </form>
+</div>
+</body>
+</html>

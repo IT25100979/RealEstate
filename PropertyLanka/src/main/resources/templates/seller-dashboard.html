@@ -35,7 +35,47 @@
                 <td>
                     <a th:href="@{/view-property/{id}(id=${prop.id})}" class="btn" style="padding: 5px 10px; font-size: 12px;">View</a>
                     <a th:href="@{/edit-property/{id}(id=${prop.id})}" class="btn" style="padding: 5px 10px; font-size: 12px;">Edit</a>
-                    <a th:href="@{/delete-property/{id}(id=${prop.id})}" class="btn" style="padding: 5px 10px; font-size: 12px; background: red; color: white;">Delete</a>
+                    <a th:href="@{/delete-property/{id}(id=${prop.id})}"
+                       class="btn"
+                       style="padding: 5px 10px; font-size: 12px; background: red; color: white;"
+                       onclick="return confirm('Are you sure you want to delete this listing?')">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="glass-card" style="padding: 20px; margin-top: 40px;">
+        <h3>📥 Buyer Inquiries (Inbox)</h3>
+
+        <p th:if="${#lists.isEmpty(inquiries)}" style="margin-top: 15px; opacity: 0.7;">No new inquiries yet. Your inbox is empty!</p>
+
+        <table th:unless="${#lists.isEmpty(inquiries)}" style="width: 100%; text-align: left; margin-top: 20px;">
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                <th>Date</th>
+                <th>Property ID</th>
+                <th>Buyer ID</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            <tr th:each="inq : ${inquiries}" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <td th:text="${inq.date}"></td>
+                <td th:text="${inq.propertyId}"></td>
+                <td th:text="${inq.buyerId}"></td>
+
+                <td th:text="${#strings.abbreviate(inq.message, 50)}"></td>
+
+                <td>
+                    <span th:class="${inq.status == 'Unread'} ? 'badge purple-badge' : 'badge blue-badge'"
+                          th:text="${inq.status}"></span>
+                </td>
+                <td>
+                    <a th:if="${inq.status == 'Unread'}"
+                       th:href="@{/mark-read/{id}(id=${inq.id})}"
+                       class="btn"
+                       style="padding: 5px 10px; font-size: 12px; background: #28a745; color: white;">Mark Read</a>
                 </td>
             </tr>
         </table>

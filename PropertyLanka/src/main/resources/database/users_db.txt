@@ -2,3 +2,4 @@ A001|Boss Admin|admin@estatesaas.com|admin123|0000000000|HQ|PRIMARY_ADMIN|defaul
 U001|JohnRealEstate|john@email.com|password123|0779999999|Colombo|Seller|pic1.png|Active
 U1778625705166|Colin|colin1234@gmail.com|12345|12345|Not Provided|BUYER|default.png|Active
 U1778666566776|baddy|baddy1234@gmail.com|1234|07708|Not Provided|SELLER|default.png|Active
+U1778672012464|Banda putha|bandaputha123@gmail.com|banda|077654|Not Provided|SELLER|default.png|Active

@@ -27,6 +27,9 @@ public class Inquiry {
     public String getBuyerId() { return buyerId; }
     public String getMessage() { return message; }
     public String getStatus() { return status; }
+    public String getDate() {
+        return date;
+    }
 
     // Setter for updating status
     public void setStatus(String status) { this.status = status; }

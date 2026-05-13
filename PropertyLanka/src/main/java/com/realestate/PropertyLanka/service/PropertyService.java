@@ -26,6 +26,17 @@ public class PropertyService {
         return repository.findAll();
     }
 
+    // READ BY SELLER ID
+    public List<Property> getPropertiesBySellerId(String sellerId) {
+        List<Property> sellerProperties = new java.util.ArrayList<>();
+        for (Property p : repository.findAll()) {
+            if (p.getSellerId() != null && p.getSellerId().equals(sellerId)) {
+                sellerProperties.add(p);
+            }
+        }
+        return sellerProperties;
+    }
+
     public Property getPropertyById(String id) {
         for (Property p : repository.findAll()) {
             if (p.getId().equals(id)) return p;
@@ -42,6 +53,11 @@ public class PropertyService {
             repository.update(p);
             System.out.println("✅ Service: Property updated successfully.");
         }
+    }
+
+    public void updateProperty(Property updatedProperty) {
+        repository.update(updatedProperty);
+        System.out.println("✅ Service: Property '" + updatedProperty.getTitle() + "' updated successfully.");
     }
 
     // DELETE

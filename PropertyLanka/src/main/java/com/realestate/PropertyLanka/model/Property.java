@@ -37,6 +37,9 @@ public class Property {
     public String getTitle() { return title; }
     public double getPrice() { return price; }
     public String getStatus() { return status; }
+    public String getCreatedDate() {
+        return createdDate;
+    }
     public String getDescription() { return description; } // Added for UI later
     public String getAddress() { return address; }         // Added for UI later
     public String getPropertyType() { return propertyType; } // Added for UI later

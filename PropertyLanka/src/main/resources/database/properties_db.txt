@@ -1,1 +1,2 @@
-P1778666613426|U1778666566776|Home|Big home|2000.0|sliit, pittugala, Malabe|Apartment|Available|default-house.jpg|2026-05-13
+P1778666613426|U1778666566776|Home|Big home, Garden available , parking available |2000.0|sliit, pittugala, Malabe|Apartment|Available|default-house.jpg|2026-05-13
+P1778672063118|U1778672012464|Podige|Mage wife ta kiyana epa|50000.0|Hill Road, Dehiwala|Apartment|Available|default-house.jpg|2026-05-13

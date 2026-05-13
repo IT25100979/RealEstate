@@ -25,15 +25,31 @@
         </div>
 
         <div class="nav-center">
+            <a href="/">Home</a>
+
             <a href="#buy">Buy</a>
-            <a href="#sell">Sell</a>
             <a href="#rent">Rent</a>
-            <a href="#manage">Manage Property</a>
+
+            <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'SELLER'}">
+                <a href="/add-property">Sell</a>
+                <a href="/seller-dashboard">Manage Property</a>
+            </th:block>
+
+            <th:block th:if="${session.loggedInUser != null and (session.loggedInUser.role == 'ADMIN' or session.loggedInUser.role == 'PRIMARY_ADMIN')}">
+                <a href="/adminportal" style="color: #ff4d4d; font-weight: bold;">Admin Portal</a>
+            </th:block>
+
             <a href="#resources">Resources</a>
         </div>
 
         <div class="nav-right">
-            <a href="#contact" class="btn-contact">Contact us</a>
+            <a href="#contact" class="btn-contact" th:if="${session.loggedInUser == null}">Contact us</a>
+
+            <div th:if="${session.loggedInUser != null}" style="display: flex; align-items: center; gap: 10px;">
+                <span style="color: white; font-size: 0.9rem; opacity: 0.8;" th:text="'Hi, ' + ${session.loggedInUser.username}"></span>
+                <a href="/profile" class="btn-contact" style="background: var(--primary);">Profile</a>
+                <a href="/logout" class="btn-contact" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Logout</a>
+            </div>
         </div>
     </nav>
 </header>
@@ -65,14 +81,24 @@
         </div>
 
         <div class="floating-cards-wrapper">
-            <div class="glass-card card-1">
-                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=300&q=80" alt="Modern Home">
+            <div class="glass-card" th:each="prop : ${allProperties}" style="margin-bottom: 20px;">
+                <img th:src="${prop.image != null and prop.image != '' ? prop.image : 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=300&q=80'}" alt="Property Image">
+
                 <div class="card-details">
-                    <span class="badge purple-badge">Featured</span>
-                    <h4>Beverly Hills Villa</h4>
-                    <p>$4.2M • 5 Beds • 4 Baths</p>
+                    <span class="badge blue-badge" th:text="${prop.status}">Available</span>
+
+                    <h4 th:text="${prop.title}">Property Title</h4>
+
+                    <p><strong th:text="'Rs. ' + ${prop.price}">Price</strong> • <span th:text="${prop.propertyType}">Type</span></p>
+
+                    <a th:href="@{/view-property/{id}(id=${prop.id})}" class="btn" style="padding: 5px 10px; font-size: 12px; margin-top: 10px; display: inline-block;">View Details</a>
                 </div>
             </div>
+
+            <div th:if="${#lists.isEmpty(allProperties)}" style="color: white; text-align: center; width: 100%;">
+                <p>No properties currently listed on the market.</p>
+            </div>
+        </div>
 
             <div class="glass-card card-2">
                 <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=300&q=80" alt="Luxury Condo">
