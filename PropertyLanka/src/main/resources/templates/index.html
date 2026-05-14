@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropertyLanka — Find Your Dream Property</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ── TOAST ── -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ══════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════ -->
+  <nav class="nav">
+    <a href="/" class="nav-logo">Property<span>Lanka</span></a>
+    <div class="nav-links">
+      <a href="/"       class="nav-link active">Home</a>
+      <a href="/properties"  class="nav-link">Properties</a>
+      <a href="/search"      class="nav-link">Search</a>
+    </div>
+    <div class="nav-right" id="nav-right">
+      <!-- Injected by nav.js depending on login state -->
+      <a href="/login"><button class="btn-ghost">Sign In</button></a>
+      <a href="/register"><button class="btn-primary">Sign Up</button></a>
+          <!-- Theme Toggle -->
+      <label class="theme-toggle" title="Toggle light/dark mode">
+        <input type="checkbox" class="theme-checkbox">
+        <div class="theme-track">
+          <span class="icon-moon">🌙</span>
+          <span class="icon-sun">☀️</span>
+        </div>
+        <span class="theme-thumb">🌙</span>
+      </label>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════
+       HERO — with particle canvas
+  ══════════════════════════════════ -->
+  <section class="hero">
+
+    <!-- Particle animation lives here -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="hero-pulse"></span>
+        142 properties listed today
+      </div>
+
+      <h1>Find Your Next<br><span>Dream Property</span></h1>
+
+      <p class="hero-subtitle">
+        Browse, list, and connect. PropertyLanka brings buyers, renters
+        and sellers together in one sleek platform.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="/properties">
+          <button class="btn-primary-lg">Browse Properties</button>
+        </a>
+        <a href="/add-property">
+          <button class="btn-outline-lg">List Your Property</button>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">142</div>
+          <div class="hero-stat-lbl">Total Listings</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">89</div>
+          <div class="hero-stat-lbl">Available Now</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">58</div>
+          <div class="hero-stat-lbl">For Rent</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">31</div>
+          <div class="hero-stat-lbl">For Sale</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       QUICK SEARCH BAR
+  ══════════════════════════════════ -->
+  <div class="quick-search">
+    <div class="quick-search-inner">
+      <div class="qs-field">
+        <label for="qs-loc">Location</label>
+        <input id="qs-loc" type="text" placeholder="City, state or ZIP...">
+      </div>
+      <div class="qs-divider"></div>
+      <div class="qs-field">
+        <label for="qs-type">Type</label>
+        <select id="qs-type">
+          <option value="">Any type</option>
+          <option value="house">House</option>
+          <option value="apartment">Apartment</option>
+          <option value="villa">Villa</option>
+          <option value="commercial">Commercial</option>
+          <option value="land">Land</option>
+        </select>
+      </div>
+      <div class="qs-divider"></div>
+      <div class="qs-field">
+        <label for="qs-listing">Listing</label>
+        <select id="qs-listing">
+          <option value="">Rent or Sale</option>
+          <option value="rent">For Rent</option>
+          <option value="sale">For Sale</option>
+        </select>
+      </div>
+      <a href="/search">
+        <button class="btn-primary" style="padding: 10px 26px;">Search</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       LATEST LISTINGS
+  ══════════════════════════════════ -->
+  <section class="page-section" style="padding-top: 52px;">
+    <div class="section-header">
+      <h2 class="section-title">Latest Listings</h2>
+      <a href="/properties" class="section-link">View all →</a>
+    </div>
+
+    <div class="prop-grid">
+
+      <!-- Card 1 -->
+      <a href="/property?id=1" class="prop-card">
+        <div class="prop-card-img">
+          🏢
+          <span class="listing-badge badge-rent">For Rent</span>
+        </div>
+        <div class="prop-card-body">
+          <div class="prop-card-name">The Ritz Residences</div>
+          <div class="prop-card-loc">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            3891 Ranchview Dr, California
+          </div>
+          <div class="prop-card-footer">
+            <div class="prop-price">$4,200/mo</div>
+            <div class="prop-tags">
+              <span class="prop-tag">3 bed</span>
+              <span class="prop-tag">2 bath</span>
+            </div>
+          </div>
+          <div class="prop-card-lister">
+            <div class="lister-avatar">SK</div>
+            <span class="lister-name">Listed by Sarah K.</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="/property?id=2" class="prop-card">
+        <div class="prop-card-img c2">
+          🏡
+          <span class="listing-badge badge-sale">For Sale</span>
+        </div>
+        <div class="prop-card-body">
+          <div class="prop-card-name">CityCenterDC Apartments</div>
+          <div class="prop-card-loc">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            2972 Westheimer Rd, Illinois
+          </div>
+          <div class="prop-card-footer">
+            <div class="prop-price">$320,000</div>
+            <div class="prop-tags">
+              <span class="prop-tag">4 bed</span>
+              <span class="prop-tag">3 bath</span>
+            </div>
+          </div>
+          <div class="prop-card-lister">
+            <div class="lister-avatar">MT</div>
+            <span class="lister-name">Listed by Mark T.</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3 -->
+      <a href="/property?id=4" class="prop-card">
+        <div class="prop-card-img c4">
+          🏠
+          <span class="listing-badge badge-sale">For Sale</span>
+        </div>
+        <div class="prop-card-body">
+          <div class="prop-card-name">Green Valley Villa</div>
+          <div class="prop-card-loc">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            78 Hillcrest Blvd, Texas
+          </div>
+          <div class="prop-card-footer">
+            <div class="prop-price">$1,200,000</div>
+            <div class="prop-tags">
+              <span class="prop-tag">6 bed</span>
+              <span class="prop-tag">5 bath</span>
+            </div>
+          </div>
+          <div class="prop-card-lister">
+            <div class="lister-avatar">CR</div>
+            <span class="lister-name">Listed by Carlos R.</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PARTICLE ANIMATION SCRIPT
+  ══════════════════════════════════ -->
+    <script src="/js/particles.js"></script>
+
+  <script src="/js/theme-toggle.js"></script>
+</body>
+</html>
