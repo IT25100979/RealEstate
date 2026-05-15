@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PropertyLanka — Find Your Dream Property</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-  <!-- ── TOAST ── -->
   <div class="toast" id="toast"></div>
 
   <!-- ══════════════════════════════════
@@ -16,16 +15,40 @@
   ══════════════════════════════════ -->
   <nav class="nav">
     <a href="/" class="nav-logo">Property<span>Lanka</span></a>
+
     <div class="nav-links">
-      <a href="/"       class="nav-link active">Home</a>
-      <a href="/properties"  class="nav-link">Properties</a>
-      <a href="/search"      class="nav-link">Search</a>
+      <a href="/"           class="nav-link active">Home</a>
+      <a href="/properties" class="nav-link">Properties</a>
+      <a href="/search"     class="nav-link">Search</a>
+
+      <!-- Show Sell + Manage only for SELLER role -->
+      <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'SELLER'}">
+        <a href="/add-property"      class="nav-link">List Property</a>
+        <a href="/seller-dashboard"  class="nav-link">My Listings</a>
+      </th:block>
+
+      <!-- Show Admin Portal only for admins -->
+      <th:block th:if="${session.loggedInUser != null and (session.loggedInUser.role == 'ADMIN' or session.loggedInUser.role == 'PRIMARY_ADMIN')}">
+        <a href="/adminportal" class="nav-link" style="color:#ef4444;font-weight:700;">Admin Portal</a>
+      </th:block>
     </div>
-    <div class="nav-right" id="nav-right">
-      <!-- Injected by nav.js depending on login state -->
-      <a href="/login"><button class="btn-ghost">Sign In</button></a>
-      <a href="/register"><button class="btn-primary">Sign Up</button></a>
-          <!-- Theme Toggle -->
+
+    <div class="nav-right">
+      <!-- Logged out state -->
+      <th:block th:if="${session.loggedInUser == null}">
+        <a href="/login"><button class="btn-ghost">Sign In</button></a>
+        <a href="/register"><button class="btn-primary">Sign Up</button></a>
+      </th:block>
+
+      <!-- Logged in state -->
+      <th:block th:if="${session.loggedInUser != null}">
+        <span style="font-size:13px;color:var(--txt2);"
+              th:text="'Hi, ' + ${session.loggedInUser.username}"></span>
+        <a href="/profile"><button class="btn-ghost">Profile</button></a>
+        <a href="/logout"><button class="btn-ghost">Logout</button></a>
+      </th:block>
+
+      <!-- Theme Toggle -->
       <label class="theme-toggle" title="Toggle light/dark mode">
         <input type="checkbox" class="theme-checkbox">
         <div class="theme-track">
@@ -38,17 +61,15 @@
   </nav>
 
   <!-- ══════════════════════════════════
-       HERO — with particle canvas
+       HERO
   ══════════════════════════════════ -->
   <section class="hero">
-
-    <!-- Particle animation lives here -->
     <canvas id="particle-canvas"></canvas>
 
     <div class="hero-content">
       <div class="hero-eyebrow">
         <span class="hero-pulse"></span>
-        142 properties listed today
+        Live listings updated daily
       </div>
 
       <h1>Find Your Next<br><span>Dream Property</span></h1>
@@ -59,30 +80,28 @@
       </p>
 
       <div class="hero-ctas">
-        <a href="/properties">
-          <button class="btn-primary-lg">Browse Properties</button>
-        </a>
-        <a href="/add-property">
-          <button class="btn-outline-lg">List Your Property</button>
-        </a>
+        <a href="/properties"><button class="btn-primary-lg">Browse Properties</button></a>
+        <!-- Only show List Property button for sellers -->
+        <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'SELLER'}">
+          <a href="/add-property"><button class="btn-outline-lg">List Your Property</button></a>
+        </th:block>
+        <th:block th:if="${session.loggedInUser == null}">
+          <a href="/register"><button class="btn-outline-lg">Join PropertyLanka</button></a>
+        </th:block>
       </div>
 
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="hero-stat-num">142</div>
+          <div class="hero-stat-num" th:text="${totalProperties} ?: '0'">0</div>
           <div class="hero-stat-lbl">Total Listings</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num">89</div>
+          <div class="hero-stat-num" th:text="${availableProperties} ?: '0'">0</div>
           <div class="hero-stat-lbl">Available Now</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num">58</div>
-          <div class="hero-stat-lbl">For Rent</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">31</div>
-          <div class="hero-stat-lbl">For Sale</div>
+          <div class="hero-stat-num" th:text="${totalUsers} ?: '0'">0</div>
+          <div class="hero-stat-lbl">Members</div>
         </div>
       </div>
     </div>
@@ -92,135 +111,138 @@
        QUICK SEARCH BAR
   ══════════════════════════════════ -->
   <div class="quick-search">
-    <div class="quick-search-inner">
+    <form class="quick-search-inner" action="/search" method="GET">
       <div class="qs-field">
-        <label for="qs-loc">Location</label>
-        <input id="qs-loc" type="text" placeholder="City, state or ZIP...">
+        <label>Location</label>
+        <input name="city" placeholder="City or area...">
       </div>
       <div class="qs-divider"></div>
       <div class="qs-field">
-        <label for="qs-type">Type</label>
-        <select id="qs-type">
-          <option value="">Any type</option>
-          <option value="house">House</option>
-          <option value="apartment">Apartment</option>
-          <option value="villa">Villa</option>
-          <option value="commercial">Commercial</option>
-          <option value="land">Land</option>
+        <label>Type</label>
+        <select name="type">
+          <option value="">Any</option>
+          <option value="House">House</option>
+          <option value="Apartment">Apartment</option>
+          <option value="Land">Land</option>
+          <option value="Commercial">Commercial</option>
         </select>
       </div>
       <div class="qs-divider"></div>
       <div class="qs-field">
-        <label for="qs-listing">Listing</label>
-        <select id="qs-listing">
-          <option value="">Rent or Sale</option>
-          <option value="rent">For Rent</option>
-          <option value="sale">For Sale</option>
-        </select>
+        <label>Max Price (Rs.)</label>
+        <input name="maxPrice" type="number" placeholder="Any">
       </div>
-      <a href="/search">
-        <button class="btn-primary" style="padding: 10px 26px;">Search</button>
-      </a>
-    </div>
+      <button type="submit" class="btn-primary" style="padding:10px 24px;white-space:nowrap;">
+        Search
+      </button>
+    </form>
   </div>
 
   <!-- ══════════════════════════════════
        LATEST LISTINGS
   ══════════════════════════════════ -->
-  <section class="page-section" style="padding-top: 52px;">
+  <div class="page-section">
     <div class="section-header">
-      <h2 class="section-title">Latest Listings</h2>
+      <div class="section-title">Latest Listings</div>
       <a href="/properties" class="section-link">View all →</a>
     </div>
 
-    <div class="prop-grid">
-
-      <!-- Card 1 -->
-      <a href="/property?id=1" class="prop-card">
+    <!-- Dynamic properties from backend -->
+    <div class="prop-grid" th:if="${not #lists.isEmpty(allProperties)}">
+      <a th:each="p : ${allProperties}"
+         th:href="@{/view-property/{id}(id=${p.id})}"
+         class="prop-card">
         <div class="prop-card-img">
-          🏢
-          <span class="listing-badge badge-rent">For Rent</span>
+          <img th:if="${p.image != null and p.image != ''}"
+               th:src="${p.image}"
+               alt="Property"
+               style="width:100%;height:100%;object-fit:cover;">
+          <span th:unless="${p.image != null and p.image != ''}">
+            <th:block th:switch="${p.propertyType}">
+              <span th:case="'Apartment'">🏢</span>
+              <span th:case="'Land'">🌳</span>
+              <span th:case="'Commercial'">🏗️</span>
+              <span th:case="*">🏠</span>
+            </th:block>
+          </span>
+          <span class="listing-badge"
+                th:classappend="${p.status == 'Available'} ? 'badge-sale' : 'badge-rent'"
+                th:text="${p.status}">Available</span>
         </div>
         <div class="prop-card-body">
-          <div class="prop-card-name">The Ritz Residences</div>
+          <div class="prop-card-name" th:text="${p.title}">Property Title</div>
           <div class="prop-card-loc">
-            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            3891 Ranchview Dr, California
+            <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span th:text="${p.address}">Address</span>
           </div>
           <div class="prop-card-footer">
-            <div class="prop-price">$4,200/mo</div>
+            <div class="prop-price" th:text="'Rs. ' + ${p.price}">Price</div>
             <div class="prop-tags">
-              <span class="prop-tag">3 bed</span>
-              <span class="prop-tag">2 bath</span>
+              <span class="prop-tag" th:text="${p.propertyType}">Type</span>
             </div>
-          </div>
-          <div class="prop-card-lister">
-            <div class="lister-avatar">SK</div>
-            <span class="lister-name">Listed by Sarah K.</span>
           </div>
         </div>
       </a>
-
-      <!-- Card 2 -->
-      <a href="/property?id=2" class="prop-card">
-        <div class="prop-card-img c2">
-          🏡
-          <span class="listing-badge badge-sale">For Sale</span>
-        </div>
-        <div class="prop-card-body">
-          <div class="prop-card-name">CityCenterDC Apartments</div>
-          <div class="prop-card-loc">
-            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            2972 Westheimer Rd, Illinois
-          </div>
-          <div class="prop-card-footer">
-            <div class="prop-price">$320,000</div>
-            <div class="prop-tags">
-              <span class="prop-tag">4 bed</span>
-              <span class="prop-tag">3 bath</span>
-            </div>
-          </div>
-          <div class="prop-card-lister">
-            <div class="lister-avatar">MT</div>
-            <span class="lister-name">Listed by Mark T.</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card 3 -->
-      <a href="/property?id=4" class="prop-card">
-        <div class="prop-card-img c4">
-          🏠
-          <span class="listing-badge badge-sale">For Sale</span>
-        </div>
-        <div class="prop-card-body">
-          <div class="prop-card-name">Green Valley Villa</div>
-          <div class="prop-card-loc">
-            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            78 Hillcrest Blvd, Texas
-          </div>
-          <div class="prop-card-footer">
-            <div class="prop-price">$1,200,000</div>
-            <div class="prop-tags">
-              <span class="prop-tag">6 bed</span>
-              <span class="prop-tag">5 bath</span>
-            </div>
-          </div>
-          <div class="prop-card-lister">
-            <div class="lister-avatar">CR</div>
-            <span class="lister-name">Listed by Carlos R.</span>
-          </div>
-        </div>
-      </a>
-
     </div>
-  </section>
+
+    <!-- No properties yet -->
+    <div th:if="${#lists.isEmpty(allProperties)}"
+         style="text-align:center;padding:60px 20px;color:var(--txt2);">
+      <div style="font-size:48px;margin-bottom:12px;">🏘️</div>
+      <div style="font-size:18px;font-weight:600;">No listings yet</div>
+      <div style="font-size:14px;margin-top:8px;">Be the first to list a property!</div>
+      <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'SELLER'}">
+        <a href="/add-property" style="display:inline-block;margin-top:16px;">
+          <button class="btn-primary">List a Property</button>
+        </a>
+      </th:block>
+    </div>
+  </div>
 
   <!-- ══════════════════════════════════
-       PARTICLE ANIMATION SCRIPT
+       FOOTER
   ══════════════════════════════════ -->
-    <script src="/js/particles.js"></script>
+  <footer style="background:var(--surface);border-top:1px solid var(--bdr);
+                 padding:32px 40px;margin-top:40px;">
+    <div style="max-width:1100px;margin:0 auto;display:flex;
+                justify-content:space-between;flex-wrap:wrap;gap:20px;">
+      <div>
+        <div class="nav-logo" style="margin-bottom:8px;">
+          Property<span style="color:var(--pur)">Lanka</span>
+        </div>
+        <p style="font-size:13px;color:var(--txt2);">
+          Elevating the standard of modern real estate discovery.
+        </p>
+      </div>
+      <div style="display:flex;gap:40px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--txt2);
+                      text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">
+            Quick Links
+          </div>
+          <a href="/properties" style="display:block;font-size:13px;
+             color:var(--txt2);margin-bottom:6px;">Browse Properties</a>
+          <a href="/register" style="display:block;font-size:13px;
+             color:var(--txt2);margin-bottom:6px;">Sign Up</a>
+          <a href="/search" style="display:block;font-size:13px;color:var(--txt2);">Search</a>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--txt2);
+                      text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">
+            Legal
+          </div>
+          <a href="#" style="display:block;font-size:13px;
+             color:var(--txt2);margin-bottom:6px;">Privacy Policy</a>
+          <a href="#" style="display:block;font-size:13px;color:var(--txt2);">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-  <script src="/js/theme-toggle.js"></script>
+  <script th:src="@{/js/particles.js}"></script>
+  <script th:src="@{/js/theme-toggle.js}"></script>
 </body>
 </html>
