@@ -1,26 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Account — PropertyLanka</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-  <!-- NAV -->
   <nav class="nav">
     <a href="/" class="nav-logo">Property<span>Lanka</span></a>
     <div class="nav-links">
-      <a href="/"       class="nav-link">Home</a>
-      <a href="/properties"  class="nav-link">Properties</a>
-      <a href="/search"      class="nav-link">Search</a>
+      <a href="/"           class="nav-link">Home</a>
+      <a href="/properties" class="nav-link">Properties</a>
     </div>
     <div class="nav-right">
       <a href="/login" style="font-size:13px;color:var(--txt2);">
-        Already have an account? <span style="color:var(--pur)">Sign in →</span>
+        Have an account? <span style="color:var(--pur)">Sign in →</span>
       </a>
-          <!-- Theme Toggle -->
       <label class="theme-toggle" title="Toggle light/dark mode">
         <input type="checkbox" class="theme-checkbox">
         <div class="theme-track">
@@ -32,125 +29,99 @@
     </div>
   </nav>
 
-  <!--
-    BACK-END NOTE:
-    Form action: RegisterServlet (POST)
-    Validate: email not already used, passwords match, all required fields filled
-    On success: auto-login + redirect to index.jsp
-    On failure: request.setAttribute("error", "...message...")
-  -->
-
   <div class="auth-layout">
-
-    <!-- LEFT — branding panel -->
+    <!-- Left panel -->
     <div class="auth-left">
-      <div class="nav-logo" style="font-size:24px;margin-bottom:36px;cursor:default;">
-        Nest<span style="color:var(--pur)">Vault</span>
-      </div>
-      <h2 class="auth-heading">
+      <div class="auth-heading">
         Join <span>PropertyLanka</span><br>today — it's free
-      </h2>
+      </div>
       <p class="auth-subtext">
-        List your property for free, or find your perfect home from
-        thousands of verified listings across the country.
+        Whether you're looking to buy, rent, or sell —
+        PropertyLanka connects you with the right people fast.
       </p>
-      <div class="auth-stats">
-        <div>
-          <div class="auth-stat-num">Free</div>
-          <div class="auth-stat-lbl">To join</div>
+      <div style="margin-top:24px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--purglow);
+                      display:flex;align-items:center;justify-content:center;font-size:14px;">🏠</div>
+          <span style="font-size:13px;color:var(--txt2);">
+            List and manage properties as a Seller
+          </span>
         </div>
-        <div>
-          <div class="auth-stat-num">5 min</div>
-          <div class="auth-stat-lbl">To list</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--purglow);
+                      display:flex;align-items:center;justify-content:center;font-size:14px;">🔍</div>
+          <span style="font-size:13px;color:var(--txt2);">
+            Search and contact sellers as a Buyer
+          </span>
         </div>
-        <div>
-          <div class="auth-stat-num">Real</div>
-          <div class="auth-stat-lbl">Contacts</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--purglow);
+                      display:flex;align-items:center;justify-content:center;font-size:14px;">💬</div>
+          <span style="font-size:13px;color:var(--txt2);">
+            Send inquiries directly to property owners
+          </span>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT — register form -->
+    <!-- Right panel — form -->
     <div class="auth-right">
       <div class="auth-form-box">
-
-        <h2 style="font-family:var(--font-head);font-size:22px;font-weight:800;margin-bottom:6px;">
-          Create Account
-        </h2>
         <p class="auth-switch">
           Already have an account? <a href="/login">Sign in</a>
         </p>
 
-        <!--
-          JSP error display:
-          <% if (request.getAttribute("error") != null) { %>
-          <div style="background:#1c0a0a;border:1px solid var(--red);border-radius:9px;padding:10px 14px;font-size:13px;color:#f87171;margin-bottom:16px;">
-            <%= request.getAttribute("error") %>
-          </div>
-          <% } %>
-        -->
+        <h2 style="font-family:var(--font-head);font-size:22px;
+                   font-weight:700;margin-bottom:20px;">Create Account</h2>
 
-        <form action="RegisterServlet" method="POST">
+        <!-- Error from backend -->
+        <div th:if="${error}"
+             style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);
+                    border-radius:8px;padding:10px 14px;margin-bottom:16px;
+                    font-size:13px;color:#ef4444;"
+             th:text="${error}"></div>
 
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label for="firstName">First Name *</label>
-              <input type="text" id="firstName" name="firstName" placeholder="Jane" required>
-            </div>
-            <div class="form-group">
-              <label for="lastName">Last Name *</label>
-              <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
-            </div>
-          </div>
-
+        <form action="/register" method="POST">
           <div class="form-group">
-            <label for="email">Email Address *</label>
-            <input type="email" id="email" name="email" placeholder="you@email.com" required>
+            <label>Full Name</label>
+            <input type="text" name="username" required placeholder="Your full name">
           </div>
-
           <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="+1 555 000 0000">
+            <label>Email Address</label>
+            <input type="email" name="email" required placeholder="you@email.com">
           </div>
-
           <div class="form-group">
-            <label for="password">Password *</label>
-            <input type="password" id="password" name="password"
-                   placeholder="Min. 8 characters" minlength="8" required>
+            <label>Password</label>
+            <input type="password" name="password" required placeholder="Min 6 characters">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone" required placeholder="+94 77 000 0000">
           </div>
 
-          <div class="form-group" style="margin-bottom:22px;">
-            <label for="confirmPassword">Confirm Password *</label>
-            <input type="password" id="confirmPassword" name="confirmPassword"
-                   placeholder="Repeat your password" required>
+          <!-- Role selector — from teammate's template -->
+          <div class="form-group">
+            <label>I want to</label>
+            <select name="role" required>
+              <option value="BUYER">Buy / Rent Properties</option>
+              <option value="SELLER">Sell / List Properties</option>
+            </select>
           </div>
 
-          <button type="submit" class="btn-primary btn-full" onclick="return checkPasswords()">
+          <button type="submit" class="btn-primary btn-full" style="margin-top:8px;">
             Create Account
           </button>
-
-          <p style="text-align:center;font-size:11px;color:var(--txt3);margin-top:18px;">
-            By creating an account you agree to our Terms of Service
-          </p>
-
         </form>
+
+        <p style="font-size:11px;color:var(--txt3);text-align:center;margin-top:14px;">
+          By signing up you agree to our
+          <a href="#" style="color:var(--pur)">Terms of Service</a> and
+          <a href="#" style="color:var(--pur)">Privacy Policy</a>
+        </p>
       </div>
     </div>
-
   </div>
 
-  <script>
-    function checkPasswords() {
-      const pw  = document.getElementById('password').value;
-      const cpw = document.getElementById('confirmPassword').value;
-      if (pw !== cpw) {
-        alert('Passwords do not match. Please try again.');
-        return false;
-      }
-      return true;
-    }
-  </script>
-
-  <script src="/js/theme-toggle.js"></script>
+  <script th:src="@{/js/theme-toggle.js}"></script>
 </body>
 </html>

@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="14742dd9-7246-4476-afcd-ceabefdf4de7" name="Changes" comment="Updated to the latest structure" />
+    <list default="true" id="14742dd9-7246-4476-afcd-ceabefdf4de7" name="Changes" comment="updated page controller">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/InquiryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/InquiryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/PageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/PropertyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/PropertyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/model/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/model/Property.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/repository/PropertyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/repository/PropertyRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/service/PropertyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/service/PropertyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/static/js/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/add-property.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/add-property.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/admin.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/my-listings.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/properties.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/properties.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/property-detail.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/search.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,38 +40,75 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "IT25102517"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;author&quot;: &quot;IT25102517&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;author&quot;: &quot;IT25102517&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/IT25100979/RealEstate.git",
-    "accountId": "5a785a17-d378-4b5d-a4b9-578dff1b351e"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/IT25100979/RealEstate.git&quot;,
+    &quot;accountId&quot;: &quot;5a785a17-d378-4b5d-a4b9-578dff1b351e&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;IT25100979&quot;,
+    &quot;repository&quot;: &quot;RealEstate&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="3DfAkDTN7yzBCakEULJaOI2UdMJ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "sachindu",
-    "kotlin-language-version-configured": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Spring Boot.PropertyLankaApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sachindu&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RunManager">
+    <configuration name="PropertyLankaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="PropertyLanka" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.realestate.PropertyLanka.PropertyLankaApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -63,6 +125,13 @@
       <option name="presentableId" value="Default" />
       <updated>1778662890859</updated>
       <workItem from="1778662891978" duration="1393000" />
+      <workItem from="1778664299908" duration="437000" />
+      <workItem from="1778664955116" duration="1093000" />
+      <workItem from="1778667261316" duration="11000" />
+      <workItem from="1778738938376" duration="332000" />
+      <workItem from="1778739546638" duration="1501000" />
+      <workItem from="1778755055772" duration="361000" />
+      <workItem from="1778821552499" duration="1847000" />
     </task>
     <task id="LOCAL-00001" summary="Updated to the latest structure">
       <option name="closed" value="true" />
@@ -72,7 +141,23 @@
       <option name="project" value="LOCAL" />
       <updated>1778663256830</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added UI, Page controller&#10;Changed application.propeties&#10;CHanged Css js">
+      <option name="closed" value="true" />
+      <created>1778664590493</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1778664590493</updated>
+    </task>
+    <task id="LOCAL-00003" summary="updated page controller">
+      <option name="closed" value="true" />
+      <created>1778665474601</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1778665474601</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -80,6 +165,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated to the latest structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated to the latest structure" />
+    <MESSAGE value="Added UI, Page controller&#10;Changed application.propeties&#10;CHanged Css js" />
+    <MESSAGE value="updated page controller" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated page controller" />
   </component>
 </project>
