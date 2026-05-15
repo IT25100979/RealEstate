@@ -8,12 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class AuthController {
 
     // Now securely linked to your exact Service
-    private UserService userService = new UserService();
+    @Autowired
+    private UserService userService;
 
     // --- 1. SHOW THE PAGES ---
     @GetMapping("/login")
@@ -67,11 +69,11 @@ public class AuthController {
 
             // Route them based on the role defined in your class diagram
             if (user.getRole().equalsIgnoreCase("SELLER")) {
-                return "redirect:/seller-dashboard";
+                return "redirect:/properties";
             } else if (user.getRole().equalsIgnoreCase("ADMIN")) {
-                return "redirect:/admin-dashboard";
+                return "redirect:/admin";
             } else {
-                return "redirect:/"; // Buyers go home
+                return "redirect:/";
             }
         } else {
             // FAILED!

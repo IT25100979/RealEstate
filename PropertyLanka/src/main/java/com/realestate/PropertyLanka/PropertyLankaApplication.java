@@ -9,5 +9,5 @@ public class PropertyLankaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PropertyLankaApplication.class, args);
 	}
-
+//updated one
 }
