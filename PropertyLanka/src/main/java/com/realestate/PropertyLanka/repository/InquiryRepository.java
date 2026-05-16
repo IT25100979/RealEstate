@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface InquiryRepository extends JpaRepository<Inquiry, String> {
     List<Inquiry> findByPropertyId(String propertyId);
+    List<Inquiry> findByPropertyIdIn(List<String> propertyIds);
 }

@@ -5,8 +5,6 @@ import com.realestate.PropertyLanka.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Service
 public class PropertyService {
@@ -21,10 +19,9 @@ public class PropertyService {
         }
         repository.save(property);
     }
+
     public List<Property> getPropertiesBySellerId(String userId) {
-        return repository.findAll().stream()
-                .filter(p -> userId.equals(p.getUserId()))
-                .collect(java.util.stream.Collectors.toList());
+        return repository.findByUserId(userId);
     }
 
     public List<Property> getAllProperties() {

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class DashboardController {
@@ -23,7 +23,6 @@ public class DashboardController {
     @Autowired
     private InquiryService inquiryService;
 
-    // --- SELLER DASHBOARD ---
     @GetMapping("/seller-dashboard")
     public String showSellerDashboard(HttpSession session, Model model) {
         User user = (User) session.getAttribute("loggedInUser");
@@ -34,16 +33,16 @@ public class DashboardController {
         List<Property> sellerProperties = propertyService.getPropertiesBySellerId(user.getId());
         model.addAttribute("properties", sellerProperties);
 
-        List<Inquiry> sellerInquiries = new ArrayList<>();
-        for (Property p : sellerProperties) {
-            sellerInquiries.addAll(inquiryService.getInquiriesForProperty(p.getId()));
-        }
+        List<String> propertyIds = sellerProperties.stream()
+                .map(Property::getId)
+                .collect(Collectors.toList());
+
+        List<Inquiry> sellerInquiries = inquiryService.getInquiriesForProperties(propertyIds);
         model.addAttribute("inquiries", sellerInquiries);
 
         return "seller-dashboard";
     }
 
-    // --- SHARED PROFILE (Buyer & Seller) ---
     @GetMapping("/profile")
     public String showProfile(HttpSession session, Model model) {
         User user = (User) session.getAttribute("loggedInUser");
