@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PropertyLanka — Find Your Dream Property</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 
   <div class="toast" id="toast"></div>
@@ -17,18 +19,19 @@
     <a href="/" class="nav-logo">Property<span>Lanka</span></a>
 
     <div class="nav-links">
-      <a href="/"           class="nav-link active">Home</a>
+      <a href="/" class="nav-link active">Home</a>
       <a href="/properties" class="nav-link">Properties</a>
-      <a href="/search"     class="nav-link">Search</a>
+      <a href="/search" class="nav-link">Search</a>
 
       <!-- Show Sell + Manage only for SELLER role -->
       <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'SELLER'}">
-        <a href="/add-property"      class="nav-link">List Property</a>
-        <a href="/seller-dashboard"  class="nav-link">My Listings</a>
+        <a href="/add-property" class="nav-link">List Property</a>
+        <a href="/seller-dashboard" class="nav-link">My Listings</a>
       </th:block>
 
       <!-- Show Admin Portal only for admins -->
-      <th:block th:if="${session.loggedInUser != null and (session.loggedInUser.role == 'ADMIN' or session.loggedInUser.role == 'PRIMARY_ADMIN')}">
+      <th:block
+        th:if="${session.loggedInUser != null and (session.loggedInUser.role == 'ADMIN' or session.loggedInUser.role == 'PRIMARY_ADMIN')}">
         <a href="/adminportal" class="nav-link" style="color:#ef4444;font-weight:700;">Admin Portal</a>
       </th:block>
     </div>
@@ -42,8 +45,7 @@
 
       <!-- Logged in state -->
       <th:block th:if="${session.loggedInUser != null}">
-        <span style="font-size:13px;color:var(--txt2);"
-              th:text="'Hi, ' + ${session.loggedInUser.username}"></span>
+        <span style="font-size:13px;color:var(--txt2);" th:text="'Hi, ' + ${session.loggedInUser.username}"></span>
         <a href="/profile"><button class="btn-ghost">Profile</button></a>
         <a href="/logout"><button class="btn-ghost">Logout</button></a>
       </th:block>
@@ -114,12 +116,12 @@
     <form class="quick-search-inner" action="/search" method="GET">
       <div class="qs-field">
         <label>Location</label>
-        <input name="city" placeholder="City or area...">
+        <input name="address" placeholder="City or area...">
       </div>
       <div class="qs-divider"></div>
       <div class="qs-field">
         <label>Type</label>
-        <select name="type">
+        <select name="propertyType">
           <option value="">Any</option>
           <option value="House">House</option>
           <option value="Apartment">Apartment</option>
@@ -149,14 +151,10 @@
 
     <!-- Dynamic properties from backend -->
     <div class="prop-grid" th:if="${not #lists.isEmpty(allProperties)}">
-      <a th:each="p : ${allProperties}"
-         th:href="@{/view-property/{id}(id=${p.id})}"
-         class="prop-card">
+      <a th:each="p : ${allProperties}" th:href="@{/view-property/{id}(id=${p.id})}" class="prop-card">
         <div class="prop-card-img">
-          <img th:if="${p.image != null and p.image != ''}"
-               th:src="${p.image}"
-               alt="Property"
-               style="width:100%;height:100%;object-fit:cover;">
+          <img th:if="${p.image != null and p.image != ''}" th:src="${p.image}" alt="Property"
+            style="width:100%;height:100%;object-fit:cover;">
           <span th:unless="${p.image != null and p.image != ''}">
             <th:block th:switch="${p.propertyType}">
               <span th:case="'Apartment'">🏢</span>
@@ -165,16 +163,15 @@
               <span th:case="*">🏠</span>
             </th:block>
           </span>
-          <span class="listing-badge"
-                th:classappend="${p.status == 'Available'} ? 'badge-sale' : 'badge-rent'"
-                th:text="${p.status}">Available</span>
+          <span class="listing-badge" th:classappend="${p.status == 'Available'} ? 'badge-sale' : 'badge-rent'"
+            th:text="${p.status}">Available</span>
         </div>
         <div class="prop-card-body">
           <div class="prop-card-name" th:text="${p.title}">Property Title</div>
           <div class="prop-card-loc">
             <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-              <circle cx="12" cy="10" r="3"/>
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+              <circle cx="12" cy="10" r="3" />
             </svg>
             <span th:text="${p.address}">Address</span>
           </div>
@@ -189,8 +186,7 @@
     </div>
 
     <!-- No properties yet -->
-    <div th:if="${#lists.isEmpty(allProperties)}"
-         style="text-align:center;padding:60px 20px;color:var(--txt2);">
+    <div th:if="${#lists.isEmpty(allProperties)}" style="text-align:center;padding:60px 20px;color:var(--txt2);">
       <div style="font-size:48px;margin-bottom:12px;">🏘️</div>
       <div style="font-size:18px;font-weight:600;">No listings yet</div>
       <div style="font-size:14px;margin-top:8px;">Be the first to list a property!</div>
@@ -245,4 +241,5 @@
   <script th:src="@{/js/particles.js}"></script>
   <script th:src="@{/js/theme-toggle.js}"></script>
 </body>
+
 </html>

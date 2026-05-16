@@ -1,1 +1,5 @@
-P002|City Apartment|2 Beds, Gym|2300.0|Kandy|Apartment|Active|apt.png|2023-10-26
+P001|U101|Luxury Villa|5 Beds, Pool|50000000.0|Colombo|House|Available|default-house.jpg|2023-10-20
+P002|U102|City Apartment|2 Beds, Gym|25000000.0|Kandy|Apartment|Available|default-house.jpg|2023-10-26
+P003|U101|Commercial Space|Main Road Facing|15000000.0|Galle|Commercial|Sold|default-house.jpg|2023-11-01
+P004|U103|Bare Land|10 Perches|5000000.0|Malabe|Land|Available|default-house.jpg|2023-11-05
+P005|U102|Cozy House|3 Beds, Garden|18000000.0|Kandy|House|Available|default-house.jpg|2023-11-10

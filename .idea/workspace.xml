@@ -4,28 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14742dd9-7246-4476-afcd-ceabefdf4de7" name="Changes" comment="updated page controller">
+    <list default="true" id="14742dd9-7246-4476-afcd-ceabefdf4de7" name="Changes" comment="add commit message">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/InquiryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/InquiryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/PageController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/PropertyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/PropertyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/model/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/model/Property.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/PropertiesPageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/controller/PropertiesPageController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/repository/PropertyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/repository/PropertyRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/service/PropertyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/service/PropertyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/java/com/realestate/PropertyLanka/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/static/js/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/add-property.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/add-property.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/admin.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/database/properties_db.txt" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/database/properties_db.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/my-listings.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/properties.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/properties.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/property-detail.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/PropertyLanka/src/main/resources/templates/search.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +80,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;Spring Boot.PropertyLankaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;sachindu&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#3 on sachindu&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -117,6 +102,9 @@
       </set>
     </attachedChunks>
   </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Logical" />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="14742dd9-7246-4476-afcd-ceabefdf4de7" name="Changes" comment="" />
@@ -132,6 +120,13 @@
       <workItem from="1778739546638" duration="1501000" />
       <workItem from="1778755055772" duration="361000" />
       <workItem from="1778821552499" duration="1847000" />
+      <workItem from="1778840139567" duration="133000" />
+      <workItem from="1778840284840" duration="148000" />
+      <workItem from="1778840436246" duration="478000" />
+      <workItem from="1778845696823" duration="146000" />
+      <workItem from="1778863831036" duration="403000" />
+      <workItem from="1778915517970" duration="392000" />
+      <workItem from="1778915915617" duration="466000" />
     </task>
     <task id="LOCAL-00001" summary="Updated to the latest structure">
       <option name="closed" value="true" />
@@ -157,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1778665474601</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="It's UI update time buddy">
+      <option name="closed" value="true" />
+      <created>1778840202801</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1778840202802</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,6 +170,7 @@
     <MESSAGE value="Updated to the latest structure" />
     <MESSAGE value="Added UI, Page controller&#10;Changed application.propeties&#10;CHanged Css js" />
     <MESSAGE value="updated page controller" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated page controller" />
+    <MESSAGE value="It's UI update time buddy" />
+    <option name="LAST_COMMIT_MESSAGE" value="It's UI update time buddy" />
   </component>
 </project>

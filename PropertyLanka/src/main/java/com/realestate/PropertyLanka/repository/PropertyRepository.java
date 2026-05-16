@@ -7,11 +7,16 @@ import java.util.List;
 
 public class PropertyRepository {
 
-    private final String FILE_NAME = "src/main/resources/database/properties_db.txt";
+    private String getFileName() {
+        if (new File("PropertyLanka/src/main/resources/database/properties_db.txt").exists()) {
+            return "PropertyLanka/src/main/resources/database/properties_db.txt";
+        }
+        return "src/main/resources/database/properties_db.txt";
+    }
 
     // 1. CREATE
     public void save(Property property) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFileName(), true))) {
             writer.write(property.toDatabaseString());
             writer.newLine();
         } catch (IOException e) {
@@ -23,7 +28,7 @@ public class PropertyRepository {
     // Now reads 10 fields: id|sellerId|title|description|price|address|propertyType|status|image|createdDate
     public List<Property> findAll() {
         List<Property> properties = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(getFileName()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
@@ -55,7 +60,7 @@ public class PropertyRepository {
     // 3. UPDATE
     public void update(Property updatedProperty) {
         List<Property> properties = findAll();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFileName(), false))) {
             for (Property p : properties) {
                 if (p.getId().equals(updatedProperty.getId())) {
                     writer.write(updatedProperty.toDatabaseString());
@@ -72,7 +77,7 @@ public class PropertyRepository {
     // 4. DELETE
     public void delete(String id) {
         List<Property> properties = findAll();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFileName(), false))) {
             for (Property p : properties) {
                 if (!p.getId().equals(id)) {
                     writer.write(p.toDatabaseString());
