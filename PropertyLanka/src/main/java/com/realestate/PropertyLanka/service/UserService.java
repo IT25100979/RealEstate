@@ -4,6 +4,8 @@ import com.realestate.PropertyLanka.model.User;
 import com.realestate.PropertyLanka.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
+
 
 @Service
 public class UserService {
@@ -25,6 +27,10 @@ public class UserService {
                 .filter(u -> u.getPassword().equals(password))
                 .orElse(null);
     }
+    public List<User> getAllUsers() {
+        return repository.findAll();
+    }
+
 
     public User getUserProfile(String id) {
         return repository.findById(id).orElse(null);

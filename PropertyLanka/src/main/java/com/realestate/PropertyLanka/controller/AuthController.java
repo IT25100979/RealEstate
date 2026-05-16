@@ -3,17 +3,16 @@ package com.realestate.PropertyLanka.controller;
 import com.realestate.PropertyLanka.model.User;
 import com.realestate.PropertyLanka.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class AuthController {
 
-    // Now securely linked to your exact Service
     @Autowired
     private UserService userService;
 
@@ -31,20 +30,14 @@ public class AuthController {
     // --- 2. HANDLE SIGN UP ---
     @PostMapping("/register")
     public String processRegistration(
-            @RequestParam String username, // Changed to match your model
+            @RequestParam String username,
             @RequestParam String email,
             @RequestParam String password,
-            @RequestParam String phone,    // Changed to match your model
+            @RequestParam String phone,
             @RequestParam String role) {
 
-        // Generate a unique ID
         String userId = "U" + System.currentTimeMillis();
-
-        // Create the user using your 9-parameter constructor.
-        // We supply default values for address, profilePic, and status.
         User newUser = new User(userId, username, email, password, phone, "Not Provided", role, "default.png", "Active");
-
-        // Uses your exact method name
         userService.registerUser(newUser);
 
         System.out.println("✅ Registration processed for: " + username);
@@ -59,24 +52,20 @@ public class AuthController {
             HttpSession session,
             Model model) {
 
-        // Uses your exact login method
         User user = userService.login(email, password);
 
         if (user != null) {
-            // SUCCESS! Save user to session
             session.setAttribute("loggedInUser", user);
             System.out.println("✅ Session started for: " + user.getUsername());
 
-            // Route them based on the role defined in your class diagram
             if (user.getRole().equalsIgnoreCase("SELLER")) {
-                return "redirect:/properties";
-            } else if (user.getRole().equalsIgnoreCase("ADMIN")) {
-                return "redirect:/admin";
+                return "redirect:/seller-dashboard";
+            } else if (user.getRole().equalsIgnoreCase("ADMIN") || user.getRole().equalsIgnoreCase("PRIMARY_ADMIN")) {
+                return "redirect:/adminportal";
             } else {
                 return "redirect:/";
             }
         } else {
-            // FAILED!
             model.addAttribute("error", "Invalid email or password!");
             return "login";
         }

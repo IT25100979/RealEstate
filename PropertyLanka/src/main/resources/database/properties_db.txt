@@ -1,5 +1,0 @@
-P001|Luxury Villa in Colombo|Spacious 4-bedroom villa with a pool and garden|Villa|Sale|45000000|123 Galle Road|Colombo|Western|00300|4|3|3500.0|Available|house1.png|2025-01-10|Kamal Perera|0771234567|kamal@email.com
-P002|Modern Apartment|Fully furnished apartment near city center|Apartment|Rent|85000|45 Duplication Road|Colombo|Western|00200|2|1|950.0|Available|apt1.png|2025-02-14|Nimal Silva|0779876543|nimal@email.com
-P003|Family Home in Kandy|Cozy 3-bedroom house with a large garden|House|Sale|18500000|78 Peradeniya Road|Kandy|Central|20000|3|2|2200.0|Sold|house2.png|2025-03-05|Sunil Fernando|0712345678|sunil@email.com
-P004|Commercial Space in Galle|Prime location shop space near Galle Fort|Commercial|Rent|150000|12 Church Street|Galle|Southern|80000|0|1|1200.0|Available|shop1.png|2025-04-01|Priya Jayawardena|0761122334|priya@email.com
-P005|Beach House in Negombo|Beautiful beach-facing house with 3 bedrooms|House|Sale|32000000|5 Sea View Lane|Negombo|Western|11500|3|2|2800.0|Available|beach1.png|2025-05-20|Roshan Bandara|0754433221|roshan@email.com

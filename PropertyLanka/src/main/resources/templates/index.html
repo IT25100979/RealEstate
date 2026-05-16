@@ -114,12 +114,12 @@
     <form class="quick-search-inner" action="/search" method="GET">
       <div class="qs-field">
         <label>Location</label>
-        <input name="city" placeholder="City or area...">
+        <input name="address" placeholder="City or area...">
       </div>
       <div class="qs-divider"></div>
       <div class="qs-field">
         <label>Type</label>
-        <select name="type">
+        <select name="propertyType">
           <option value="">Any</option>
           <option value="House">House</option>
           <option value="Apartment">Apartment</option>
@@ -150,14 +150,20 @@
     <!-- Dynamic properties from backend -->
     <div class="prop-grid" th:if="${not #lists.isEmpty(allProperties)}">
       <a th:each="p : ${allProperties}"
+         th:if="${p != null}"
          th:href="@{/view-property/{id}(id=${p.id})}"
          class="prop-card">
+
         <div class="prop-card-img">
-          <img th:if="${p.image != null and p.image != ''}"
+          <!-- Only show real image if it's a full URL -->
+          <img th:if="${p.image != null and p.image != '' and !p.image.equals('default-house.jpg') and p.image.startsWith('http')}"
                th:src="${p.image}"
                alt="Property"
                style="width:100%;height:100%;object-fit:cover;">
-          <span th:unless="${p.image != null and p.image != ''}">
+
+          <!-- Emoji fallback for all other cases -->
+          <span th:unless="${p.image != null and p.image != '' and !p.image.equals('default-house.jpg') and p.image.startsWith('http')}"
+                style="font-size:52px;">
             <th:block th:switch="${p.propertyType}">
               <span th:case="'Apartment'">🏢</span>
               <span th:case="'Land'">🌳</span>
@@ -165,10 +171,12 @@
               <span th:case="*">🏠</span>
             </th:block>
           </span>
+
           <span class="listing-badge"
                 th:classappend="${p.status == 'Available'} ? 'badge-sale' : 'badge-rent'"
                 th:text="${p.status}">Available</span>
         </div>
+
         <div class="prop-card-body">
           <div class="prop-card-name" th:text="${p.title}">Property Title</div>
           <div class="prop-card-loc">
@@ -179,7 +187,8 @@
             <span th:text="${p.address}">Address</span>
           </div>
           <div class="prop-card-footer">
-            <div class="prop-price" th:text="'Rs. ' + ${p.price}">Price</div>
+            <!-- FIX: formatDecimal prevents scientific notation (e.g. 5.0E7 → 50,000,000) -->
+            <div class="prop-price" th:text="'Rs. ' + ${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')}">Price</div>
             <div class="prop-tags">
               <span class="prop-tag" th:text="${p.propertyType}">Type</span>
             </div>
