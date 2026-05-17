@@ -31,26 +31,35 @@ public class PropertyRepository {
         try (BufferedReader reader = new BufferedReader(new FileReader(getFileName()))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.trim().isEmpty()) continue;
-                String[] data = line.split("\\|", -1);
-                if (data.length >= 10) {
+                String[] data = line.split("\\|");
+                if (data.length == 19) {
                     Property p = new Property(
-                        data[0],                       // id
-                        data[1],                       // sellerId   ← NEW
-                        data[2],                       // title
-                        data[3],                       // description
-                        Double.parseDouble(data[4]),   // price
-                        data[5],                       // address
-                        data[6],                       // propertyType
-                        data[7],                       // status
-                        data[8],                       // image
-                        data[9]                        // createdDate
+                            data[0],                        // id
+                            data[1],                        // title
+                            data[2],                        // description
+                            data[3],                        // propertyType
+                            data[4],                        // listingType
+                            Double.parseDouble(data[5]),    // price
+                            data[6],                        // address
+                            data[7],                        // city
+                            data[8],                        // state
+                            data[9],                        // zip
+                            Integer.parseInt(data[10]),     // bedrooms
+                            Integer.parseInt(data[11]),     // bathrooms
+                            Double.parseDouble(data[12]),   // area
+                            data[13],                       // status
+                            data[14],                       // image
+                            data[15],                       // createdDate
+                            data[16],                       // listerName
+                            data[17],                       // listerPhone
+                            data[18]                        // listerEmail
                     );
                     properties.add(p);
                 }
             }
         } catch (FileNotFoundException e) {
-            // File doesn't exist yet — return empty list
+          
+            // Fine, no data yet
         } catch (IOException e) {
             System.out.println("Error reading database: " + e.getMessage());
         }

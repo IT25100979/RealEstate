@@ -10,10 +10,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
 @Controller
+@RestController
+@RequestMapping("/properties")
+
 public class PropertyController {
 
     private PropertyService propertyService = new PropertyService();
@@ -64,7 +70,30 @@ public class PropertyController {
 
         // 5. Send them back to their dashboard so they can see their new listing
         return "redirect:/seller-dashboard";
+    //HOME MESSAGE
+    @GetMapping("/")
+    public String home() {
+        return "Welcome to PropertyLanka!";
     }
+
+    //CREATE NEW PROPERTY
+    @PostMapping
+    public String createNewProperty(@RequestBody Property property) {
+        System.out.println("\n--- API: POST /properties ---");
+        service.addProperty(property);
+        return "Property created successfully!";
+    }
+    /*public void createNewProperty(String id,
+                                  String title, String description, String propertyType, String listingType,
+                                  double price,
+                                  String address, String city, String state, String zip,
+                                  int bedrooms, int bathrooms, double area,
+                                  String status, String image, String createdDate,
+                                  String listerName, String listerPhone, String listerEmail) {
+        System.out.println("\n--- API: POST /properties ---");
+        Property newProp = new Property (id, title, description, propertyType, listingType, price, address, city, state, zip, bedrooms, bathrooms, area, status, image, createdDate, listerName, listerPhone, listerEmail);
+        service.addProperty(newProp);
+    }*/
 
     // --- 3. SHOW THE EDIT FORM ---
     @GetMapping("/edit-property/{id}")
@@ -142,7 +171,35 @@ public class PropertyController {
 
         // 3. Refresh the dashboard
         return "redirect:/seller-dashboard";
+    //VIEW ALL PROPERTIES
+    @GetMapping
+    public List<Property> viewAllProperties() {
+        System.out.println("\n--- API: GET /properties ---");
+        return service.getAllProperties();
     }
+    /*public void viewAllProperties() {
+        System.out.println("\n--- API: GET /properties ---");
+        List<Property> list = service.getAllProperties();
+        if (list.isEmpty()) {
+            System.out.println("No properties found.");
+        } else {
+            for (Property p : list) {
+                System.out.println(p.toString());
+            }
+        }
+    }*/
+
+    //UPDATE PROPERTY PRICE
+    @PutMapping("/{id}")
+    public String updatePropertyPrice(@PathVariable String id, @RequestParam double newPrice) {
+        System.out.println("\n--- API: PUT /properties/" + id + " ---");
+        service.editPropertyPrice(id, newPrice);
+        return "Property updated successfully!";
+    }
+    /*public void updatePropertyPrice(String id, double newPrice) {
+        System.out.println("\n--- API: PUT /properties/" + id + " ---");
+        service.editPropertyPrice(id, newPrice);
+    }*/
 
     // --- 6. VIEW PROPERTY DETAILS (PUBLIC) ---
     @GetMapping("/view-property/{id}")
@@ -162,5 +219,15 @@ public class PropertyController {
         model.addAttribute("user", session.getAttribute("loggedInUser"));
 
         return "view-property"; // Looks for view-property.html
+    //DELETE PROPERTY
+    @DeleteMapping("/{id}")
+    public String deleteProperty(@PathVariable String id) {
+        System.out.println("\n--- API: DELETE /properties/" + id + " ---");
+        service.removeProperty(id);
+        return "Property deleted successfully!";
     }
+    /*public void deleteProperty(String id) {
+        System.out.println("\n--- API: DELETE /properties/" + id + " ---");
+        service.removeProperty(id);
+    }*/
 }
