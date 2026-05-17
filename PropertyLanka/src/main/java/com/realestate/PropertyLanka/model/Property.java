@@ -1,7 +1,10 @@
 package com.realestate.PropertyLanka.model;
 
 public class Property {
+
+    // ── Fields ───────────────────────────────────────────
     private String id;
+    private String sellerId;      // ← ADDED: links property to seller
 
     private String title;
     private String description;
@@ -20,7 +23,7 @@ public class Property {
     private double area;
 
     private String status;
-    private String image; // Just a text link or file name for now (e.g., "house1.png")
+    private String image;
     private String createdDate;
 
     private String listerName;
@@ -65,7 +68,8 @@ public class Property {
         this.listerEmail = listerEmail;
     }
 
-    // Turns the object into a single line for the text file
+    // ── File handling ────────────────────────────────────
+    // Format: id|sellerId|title|description|price|address|propertyType|status|image|createdDate
     public String toDatabaseString() {
         return id + "|" + title + "|" + description + "|" + propertyType + "|" + listingType + "|" +
                 price + "|" +
@@ -102,11 +106,14 @@ public class Property {
     public String getListerPhone() { return listerPhone; }
     public String getListerEmail() { return listerEmail; }
 
-    // Setters (Needed for the UPDATE function)
-    public void setTitle(String title) { this.title = title; }
+    // ── Setters ──────────────────────────────────────────
+    public void setTitle(String title)             { this.title = title; }
     public void setDescription(String description) { this.description = description; }
-    public void setPrice(double price) { this.price = price; }
-    public void setStatus(String status) { this.status = status; }
+    public void setPrice(double price)             { this.price = price; }
+    public void setAddress(String address)         { this.address = address; }
+    public void setPropertyType(String type)       { this.propertyType = type; }
+    public void setStatus(String status)           { this.status = status; }
+    public void setImage(String image)             { this.image = image; }
 
     @Override
     public String toString() {

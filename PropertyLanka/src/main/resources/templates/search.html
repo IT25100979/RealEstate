@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Search — PropertyLanka</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
@@ -14,14 +14,25 @@
   <nav class="nav">
     <a href="/" class="nav-logo">Property<span>Lanka</span></a>
     <div class="nav-links">
-      <a href="/"       class="nav-link">Home</a>
-      <a href="/properties"  class="nav-link">Properties</a>
-      <a href="/search"      class="nav-link active">Search</a>
+      <a href="/"           class="nav-link">Home</a>
+      <a href="/properties" class="nav-link">Properties</a>
+      <a href="/search"     class="nav-link active">Search</a>
+      <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'SELLER'}">
+        <a href="/add-property"     class="nav-link">List Property</a>
+        <a href="/seller-dashboard" class="nav-link">My Dashboard</a>
+      </th:block>
     </div>
     <div class="nav-right">
-      <a href="/login"><button class="btn-ghost">Sign In</button></a>
-      <a href="/register"><button class="btn-primary">Sign Up</button></a>
-          <!-- Theme Toggle -->
+      <th:block th:if="${session.loggedInUser == null}">
+        <a href="/login"><button class="btn-ghost">Sign In</button></a>
+        <a href="/register"><button class="btn-primary">Sign Up</button></a>
+      </th:block>
+      <th:block th:if="${session.loggedInUser != null}">
+        <span style="font-size:13px;color:var(--txt2);"
+              th:text="'Hi, ' + ${session.loggedInUser.username}"></span>
+        <a href="/profile"><button class="btn-ghost">Profile</button></a>
+        <a href="/logout"><button class="btn-ghost">Logout</button></a>
+      </th:block>
       <label class="theme-toggle" title="Toggle light/dark mode">
         <input type="checkbox" class="theme-checkbox">
         <div class="theme-track">
@@ -34,183 +45,152 @@
   </nav>
 
   <!-- SEARCH LAYOUT -->
-  <!--
-    BACK-END NOTE:
-    Wrap this in a <form action="SearchServlet" method="GET">
-    All filter inputs use name="" attributes ready for your servlet to read.
-  -->
-  <form action="SearchServlet" method="GET" class="search-layout">
+  <form action="/search" method="GET" class="search-layout">
 
-    <!-- ── FILTER PANEL ── -->
+    <!-- FILTER PANEL -->
     <aside class="filter-panel">
       <h3>Filter Properties</h3>
 
       <div class="filter-section">
         <div class="filter-label">Keyword</div>
-        <!-- name="keyword" for your servlet -->
-        <input class="filter-input" type="text" name="keyword" placeholder="Name or address...">
+        <input class="filter-input" type="text" name="keyword"
+               th:value="${keyword}" placeholder="Title or address...">
       </div>
 
       <div class="filter-section">
-        <div class="filter-label">Location</div>
-        <input class="filter-input" type="text" name="location" placeholder="City or state...">
+        <div class="filter-label">Location / Address</div>
+        <input class="filter-input" type="text" name="address"
+               th:value="${address}" placeholder="e.g. Colombo, Kandy...">
       </div>
 
       <div class="filter-section">
         <div class="filter-label">Property Type</div>
-        <select class="filter-input" name="type">
+        <select class="filter-input" name="propertyType">
           <option value="">Any</option>
-          <option value="house">House</option>
-          <option value="apartment">Apartment</option>
-          <option value="villa">Villa</option>
-          <option value="commercial">Commercial</option>
-          <option value="land">Land</option>
-        </select>
-      </div>
-
-      <div class="filter-section">
-        <div class="filter-label">Listing Type</div>
-        <select class="filter-input" name="listing">
-          <option value="">Rent or Sale</option>
-          <option value="rent">For Rent</option>
-          <option value="sale">For Sale</option>
-        </select>
-      </div>
-
-      <div class="filter-section">
-        <div class="filter-label">Price Range ($)</div>
-        <div class="price-range-row">
-          <input class="filter-input" type="number" name="minPrice" placeholder="Min">
-          <input class="filter-input" type="number" name="maxPrice" placeholder="Max">
-        </div>
-      </div>
-
-      <div class="filter-section">
-        <div class="filter-label">Bedrooms</div>
-        <select class="filter-input" name="beds">
-          <option value="">Any</option>
-          <option value="1">1+</option>
-          <option value="2">2+</option>
-          <option value="3">3+</option>
-          <option value="4">4+</option>
+          <option value="House"
+                  th:selected="${propertyType == 'House'}">House</option>
+          <option value="Apartment"
+                  th:selected="${propertyType == 'Apartment'}">Apartment</option>
+          <option value="Land"
+                  th:selected="${propertyType == 'Land'}">Land</option>
+          <option value="Commercial"
+                  th:selected="${propertyType == 'Commercial'}">Commercial</option>
         </select>
       </div>
 
       <div class="filter-section">
         <div class="filter-label">Status</div>
-        <div class="chip-group">
-          <button type="button" class="chip active" data-val="available">Available</button>
-          <button type="button" class="chip" data-val="rented">Rented</button>
-          <button type="button" class="chip" data-val="sold">Sold</button>
-        </div>
-        <!-- Hidden input carries selected status to servlet -->
-        <input type="hidden" name="status" id="status-val" value="available">
-      </div>
-
-      <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 8px;">
-        <button type="submit" class="btn-primary" style="width:100%; padding:11px;">Apply Filters</button>
-        <button type="reset"  class="btn-ghost"   style="width:100%; padding:10px;">Reset</button>
-      </div>
-    </aside>
-
-    <!-- ── RESULTS ── -->
-    <div class="results-area">
-      <div class="results-topbar">
-        <div class="results-count">Showing <strong>6 results</strong></div>
-        <!--
-          BACK-END NOTE:
-          Replace "6 results" with:
-          Showing <strong><%= results.size() %> results</strong>
-        -->
-        <select class="sort-select" name="sort">
-          <option value="newest">Newest first</option>
-          <option value="price_asc">Price: Low to High</option>
-          <option value="price_desc">Price: High to Low</option>
+        <select class="filter-input" name="status">
+          <option value="">Any</option>
+          <option value="Available"
+                  th:selected="${status == 'Available'}">Available</option>
+          <option value="Sold"
+                  th:selected="${status == 'Sold'}">Sold</option>
+          <option value="Rented"
+                  th:selected="${status == 'Rented'}">Rented</option>
         </select>
       </div>
 
-      <!--
-        BACK-END NOTE:
-        JSP loop goes here — same card structure as properties.jsp
-      -->
-      <div class="prop-grid">
-
-        <a href="/property?id=1" class="prop-card">
-          <div class="prop-card-img">🏢<span class="listing-badge badge-rent">For Rent</span></div>
-          <div class="prop-card-body">
-            <div class="prop-card-name">The Ritz Residences</div>
-            <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>California</div>
-            <div class="prop-card-footer"><div class="prop-price">$4,200/mo</div><div class="prop-tags"><span class="prop-tag">3 bed</span></div></div>
-            <div class="prop-card-lister"><div class="lister-avatar">SK</div><span class="lister-name">Sarah K.</span></div>
-          </div>
-        </a>
-
-        <a href="/property?id=2" class="prop-card">
-          <div class="prop-card-img c2">🏡<span class="listing-badge badge-sale">For Sale</span></div>
-          <div class="prop-card-body">
-            <div class="prop-card-name">CityCenterDC Apartments</div>
-            <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Illinois</div>
-            <div class="prop-card-footer"><div class="prop-price">$320,000</div><div class="prop-tags"><span class="prop-tag">4 bed</span></div></div>
-            <div class="prop-card-lister"><div class="lister-avatar">MT</div><span class="lister-name">Mark T.</span></div>
-          </div>
-        </a>
-
-        <a href="/property?id=3" class="prop-card">
-          <div class="prop-card-img c3">🏙️<span class="listing-badge badge-rent">For Rent</span></div>
-          <div class="prop-card-body">
-            <div class="prop-card-name">Skyline Tower Suite</div>
-            <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>New York</div>
-            <div class="prop-card-footer"><div class="prop-price">$7,500/mo</div><div class="prop-tags"><span class="prop-tag">5 bed</span></div></div>
-            <div class="prop-card-lister"><div class="lister-avatar">PM</div><span class="lister-name">Priya M.</span></div>
-          </div>
-        </a>
-
-        <a href="/property?id=4" class="prop-card">
-          <div class="prop-card-img c4">🏠<span class="listing-badge badge-sale">For Sale</span></div>
-          <div class="prop-card-body">
-            <div class="prop-card-name">Green Valley Villa</div>
-            <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Texas</div>
-            <div class="prop-card-footer"><div class="prop-price">$1,200,000</div><div class="prop-tags"><span class="prop-tag">6 bed</span></div></div>
-            <div class="prop-card-lister"><div class="lister-avatar">CR</div><span class="lister-name">Carlos R.</span></div>
-          </div>
-        </a>
-
-        <a href="/property?id=5" class="prop-card">
-          <div class="prop-card-img">🏘️<span class="listing-badge badge-rent">For Rent</span></div>
-          <div class="prop-card-body">
-            <div class="prop-card-name">Harbor View Cottage</div>
-            <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Florida</div>
-            <div class="prop-card-footer"><div class="prop-price">$2,100/mo</div><div class="prop-tags"><span class="prop-tag">2 bed</span></div></div>
-            <div class="prop-card-lister"><div class="lister-avatar">EL</div><span class="lister-name">Emma L.</span></div>
-          </div>
-        </a>
-
-        <a href="/property?id=6" class="prop-card">
-          <div class="prop-card-img c3">🏗️<span class="listing-badge badge-rent">For Rent</span></div>
-          <div class="prop-card-body">
-            <div class="prop-card-name">Midtown Office Suite</div>
-            <div class="prop-card-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>New York</div>
-            <div class="prop-card-footer"><div class="prop-price">$5,800/mo</div><div class="prop-tags"><span class="prop-tag">Commercial</span></div></div>
-            <div class="prop-card-lister"><div class="lister-avatar">DC</div><span class="lister-name">David C.</span></div>
-          </div>
-        </a>
-
+      <div class="filter-section">
+        <div class="filter-label">Max Price (Rs.)</div>
+        <input class="filter-input" type="number" name="maxPrice"
+               th:value="${maxPrice}" placeholder="e.g. 5000000">
       </div>
+
+      <div style="margin-top:24px;display:flex;flex-direction:column;gap:8px;">
+        <button type="submit" class="btn-primary" style="width:100%;padding:11px;">
+          Apply Filters
+        </button>
+        <a href="/search" style="width:100%;">
+          <button type="button" class="btn-ghost" style="width:100%;padding:10px;">
+            Reset
+          </button>
+        </a>
+      </div>
+    </aside>
+
+    <!-- RESULTS AREA -->
+    <div class="results-area">
+      <div class="results-topbar">
+        <div class="results-count">
+          Showing <strong
+            th:text="${resultCount != null} ? (${resultCount} + ' result' + (${resultCount} != 1 ? 's' : '')) : 'all properties'">
+            results
+          </strong>
+        </div>
+        <select class="sort-select" name="sort" onchange="this.form.submit()">
+          <option value="newest"
+                  th:selected="${sort == 'newest'}">Newest first</option>
+          <option value="price_asc"
+                  th:selected="${sort == 'price_asc'}">Price: Low to High</option>
+          <option value="price_desc"
+                  th:selected="${sort == 'price_desc'}">Price: High to Low</option>
+        </select>
+      </div>
+
+      <!-- No results -->
+      <div th:if="${results != null and #lists.isEmpty(results)}"
+           style="text-align:center;padding:80px 20px;color:var(--txt2);">
+        <div style="font-size:52px;margin-bottom:16px;">🔍</div>
+        <div style="font-size:20px;font-weight:700;">No properties found</div>
+        <div style="font-size:14px;margin-top:8px;">
+          Try adjusting your filters or
+          <a href="/search" style="color:var(--pur);">reset</a> them.
+        </div>
+      </div>
+
+      <!-- Results grid -->
+      <div class="prop-grid"
+           th:unless="${results == null or #lists.isEmpty(results)}">
+        <a th:each="p : ${results}"
+           th:href="@{/view-property/{id}(id=${p.id})}"
+           class="prop-card">
+          <div class="prop-card-img">
+            <img th:if="${p.image != null and p.image != '' and !p.image.equals('default-house.jpg')}"
+                 th:src="${p.image}" alt="Property"
+                 style="width:100%;height:100%;object-fit:cover;">
+            <span th:unless="${p.image != null and p.image != '' and !p.image.equals('default-house.jpg')}">
+              <th:block th:switch="${p.propertyType}">
+                <span th:case="'Apartment'">🏢</span>
+                <span th:case="'Land'">🌳</span>
+                <span th:case="'Commercial'">🏗️</span>
+                <span th:case="*">🏠</span>
+              </th:block>
+            </span>
+            <span class="listing-badge"
+                  th:classappend="${p.status == 'Available'} ? 'badge-sale' : 'badge-rent'"
+                  th:text="${p.status}"></span>
+          </div>
+          <div class="prop-card-body">
+            <div class="prop-card-name" th:text="${p.title}">Title</div>
+            <div class="prop-card-loc">
+              <svg viewBox="0 0 24 24" width="12" height="12"
+                   stroke="currentColor" fill="none" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span th:text="${p.address}">Address</span>
+            </div>
+            <div class="prop-card-footer">
+              <div class="prop-price" th:text="'Rs. ' + ${p.price}">Price</div>
+              <div class="prop-tags">
+                <span class="prop-tag" th:text="${p.propertyType}">Type</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Initial state — no search yet, show all -->
+      <div th:if="${results == null}"
+           style="text-align:center;padding:60px 20px;color:var(--txt2);">
+        <div style="font-size:40px;margin-bottom:12px;">🔍</div>
+        <div style="font-size:16px;">Use the filters to search properties</div>
+      </div>
+
     </div>
   </form>
 
-  <script>
-    /* Status chip toggle */
-    document.querySelectorAll('.filter-panel .chip').forEach(chip => {
-      chip.addEventListener('click', function () {
-        document.querySelectorAll('.filter-panel .chip').forEach(c => c.classList.remove('active'));
-        this.classList.add('active');
-        document.getElementById('status-val').value = this.dataset.val;
-      });
-    });
-  </script>
-
-    <script src="/js/search.js"></script>
-  <script src="/js/theme-toggle.js"></script>
+  <script th:src="@{/js/theme-toggle.js}"></script>
 </body>
 </html>
