@@ -5,14 +5,21 @@ import com.realestate.PropertyLanka.model.User;
 import com.realestate.PropertyLanka.service.PropertyService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Controller
 public class PropertyController {
@@ -20,7 +27,9 @@ public class PropertyController {
     @Autowired
     private PropertyService propertyService;
 
-    // --- 1. SHOW THE ADD PROPERTY FORM ---
+    @Value("${app.upload.dir:uploads}")
+    private String uploadDir;
+
     @GetMapping("/add-property")
     public String showAddPropertyForm(HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");
@@ -30,7 +39,6 @@ public class PropertyController {
         return "add-property";
     }
 
-    // --- 2. SAVE NEW PROPERTY ---
     @PostMapping("/add-property")
     public String processAddProperty(
             @RequestParam String title,
@@ -38,11 +46,29 @@ public class PropertyController {
             @RequestParam double price,
             @RequestParam String address,
             @RequestParam String propertyType,
-            @RequestParam String image,
+            @RequestParam("imageFile") MultipartFile imageFile,
             HttpSession session) {
 
         User seller = (User) session.getAttribute("loggedInUser");
         if (seller == null || !seller.getRole().equalsIgnoreCase("SELLER")) return "redirect:/login";
+
+        String imagePath = "";
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                Path uploadPath = Paths.get(uploadDir).toAbsolutePath();
+                System.out.println("📁 Upload path: " + uploadPath);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+                Path filePath = uploadPath.resolve(fileName);
+                imageFile.transferTo(filePath.toFile());
+                imagePath = "/uploads/" + fileName;
+            } catch (IOException e) {
+                System.out.println("❌ Image upload failed: " + e.getMessage());
+            }
+        }
 
         String propertyId  = "P" + System.currentTimeMillis();
         String createdDate = LocalDate.now().toString();
@@ -50,7 +76,7 @@ public class PropertyController {
         Property newProperty = new Property(
                 propertyId, title, description, propertyType, "Sale",
                 price, address, "", "", "",
-                0, 0, 0.0, "Available", image, createdDate,
+                0, 0, 0.0, "Available", imagePath, createdDate,
                 seller.getUsername(), seller.getPhone(), seller.getEmail()
         );
         newProperty.setUserId(seller.getId());
@@ -61,7 +87,6 @@ public class PropertyController {
         return "redirect:/seller-dashboard";
     }
 
-    // --- 3. SHOW EDIT FORM ---
     @GetMapping("/edit-property/{id}")
     public String showEditPropertyForm(@PathVariable String id, HttpSession session, Model model) {
         User user = (User) session.getAttribute("loggedInUser");
@@ -78,7 +103,6 @@ public class PropertyController {
         return "edit-property";
     }
 
-    // --- 4. SAVE EDITED PROPERTY ---
     @PostMapping("/edit-property")
     public String processEditProperty(
             @RequestParam String id,
@@ -105,7 +129,6 @@ public class PropertyController {
         return "redirect:/seller-dashboard";
     }
 
-    // --- 5. DELETE PROPERTY ---
     @GetMapping("/delete-property/{id}")
     public String handleDeleteProperty(@PathVariable String id, HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");
@@ -123,7 +146,6 @@ public class PropertyController {
         return "redirect:/seller-dashboard";
     }
 
-    // --- 6. VIEW PROPERTY DETAILS (PUBLIC) ---
     @GetMapping("/view-property/{id}")
     public String viewPropertyDetails(@PathVariable String id, HttpSession session, Model model) {
         Property property = propertyService.getPropertyById(id);
@@ -135,4 +157,3 @@ public class PropertyController {
         return "view-property";
     }
 }
-

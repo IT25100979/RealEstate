@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="${property.title} + ' — PropertyLanka'">Property — PropertyLanka</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style>
+    .detail-img { background: #2a2a32 !important; }
+    html[data-theme="light"] .detail-img { background: #d0d0de !important; }
+    html[data-theme="light"] .detail-back { background: rgba(255,255,255,0.80); color: #0c0c0e; border-color: rgba(0,0,0,0.15); }
+    html[data-theme="light"] .detail-back:hover { background: rgba(255,255,255,0.95); }
+  </style>
 </head>
 <body>
 
@@ -39,12 +45,33 @@
 <div class="detail-layout">
 
   <!-- Property image -->
-  <div class="detail-img">
+  <div class="detail-img"
+       style="background:var(--card2) !important;border:1px solid var(--bdr);">
     <img th:if="${property.image != null and property.image != ''}"
          th:src="${property.image}"
-         alt="Property Image"
-         style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
-    <span th:unless="${property.image != null and property.image != ''}">🏠</span>
+         alt=""
+         style="width:100%;height:100%;object-fit:contain;border-radius:inherit;display:block;"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div th:unless="${property.image != null and property.image != ''}"
+         style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:100%;height:100%;opacity:0.45;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <span style="font-size:14px;font-family:var(--font-body);letter-spacing:0.04em;">No image available</span>
+    </div>
+    <div th:if="${property.image != null and property.image != ''}"
+         style="display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:100%;height:100%;opacity:0.45;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <span style="font-size:14px;font-family:var(--font-body);letter-spacing:0.04em;">No image available</span>
+    </div>
     <a href="/properties" class="detail-back">← Back to listings</a>
   </div>
 
