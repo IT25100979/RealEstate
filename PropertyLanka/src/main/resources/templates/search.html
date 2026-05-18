@@ -143,13 +143,19 @@
       <div class="prop-grid"
            th:unless="${results == null or #lists.isEmpty(results)}">
         <a th:each="p : ${results}"
+           th:if="${p != null}"
            th:href="@{/view-property/{id}(id=${p.id})}"
            class="prop-card">
+
           <div class="prop-card-img">
-            <img th:if="${p.image != null and p.image != '' and !p.image.equals('default-house.jpg')}"
+            <!-- Only load as real image if it's a full URL -->
+            <img th:if="${p.image != null and p.image != '' and !p.image.equals('default-house.jpg') and p.image.startsWith('http')}"
                  th:src="${p.image}" alt="Property"
                  style="width:100%;height:100%;object-fit:cover;">
-            <span th:unless="${p.image != null and p.image != '' and !p.image.equals('default-house.jpg')}">
+
+            <!-- Emoji fallback for filenames or missing images -->
+            <span th:unless="${p.image != null and p.image != '' and !p.image.equals('default-house.jpg') and p.image.startsWith('http')}"
+                  style="font-size:52px;">
               <th:block th:switch="${p.propertyType}">
                 <span th:case="'Apartment'">🏢</span>
                 <span th:case="'Land'">🌳</span>
@@ -157,10 +163,12 @@
                 <span th:case="*">🏠</span>
               </th:block>
             </span>
+
             <span class="listing-badge"
                   th:classappend="${p.status == 'Available'} ? 'badge-sale' : 'badge-rent'"
                   th:text="${p.status}"></span>
           </div>
+
           <div class="prop-card-body">
             <div class="prop-card-name" th:text="${p.title}">Title</div>
             <div class="prop-card-loc">
@@ -172,7 +180,7 @@
               <span th:text="${p.address}">Address</span>
             </div>
             <div class="prop-card-footer">
-              <div class="prop-price" th:text="'Rs. ' + ${p.price}">Price</div>
+              <div class="prop-price" th:text="'Rs. ' + ${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')}">Price</div>
               <div class="prop-tags">
                 <span class="prop-tag" th:text="${p.propertyType}">Type</span>
               </div>

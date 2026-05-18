@@ -1,8 +1,12 @@
 package com.realestate.PropertyLanka.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
 
-    // ── Fields ───────────────────────────────────────────
+    @Id
     private String id;
     private String username;
     private String email;
@@ -10,49 +14,45 @@ public class User {
     private String phone;
     private String address;
     private String role;
+
+    @Column(name = "profile_pic")
     private String profilePicture;
+
+    @Column(name = "status")
     private String activeStatus;
 
-    // ── Constructor ──────────────────────────────────────
+    public User() {}
+
     public User(String id, String username, String email, String password,
                 String phone, String address, String role,
                 String profilePicture, String activeStatus) {
-        this.id             = id;
-        this.username       = username;
-        this.email          = email;
-        this.password       = password;
-        this.phone          = phone;
-        this.address        = address;
-        this.role           = role;
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
+        this.role = role;
         this.profilePicture = profilePicture;
-        this.activeStatus   = activeStatus;
+        this.activeStatus = activeStatus;
     }
 
-    // ── File handling ────────────────────────────────────
-    public String toDatabaseString() {
-        return id + "|" + username + "|" + email + "|" + password + "|" +
-               phone + "|" + address + "|" + role + "|" + profilePicture + "|" + activeStatus;
-    }
-
-    // ── Getters ──────────────────────────────────────────
+    // Getters
     public String getId()             { return id; }
     public String getUsername()       { return username; }
     public String getEmail()          { return email; }
     public String getPassword()       { return password; }
-    public String getPhone()          { return phone; }          // ← ADDED
-    public String getAddress()        { return address; }        // ← ADDED
+    public String getPhone()          { return phone; }
+    public String getAddress()        { return address; }
     public String getRole()           { return role; }
     public String getProfilePicture() { return profilePicture; }
-    public String getActiveStatus()   { return activeStatus; }   // ← ADDED
+    public String getActiveStatus()   { return activeStatus; }
 
-    // ── Setters ──────────────────────────────────────────
-    public void setUsername(String username)             { this.username = username; }
-    public void setPhone(String phone)                   { this.phone = phone; }
-    public void setAddress(String address)               { this.address = address; }
-    public void setProfilePicture(String profilePicture) { this.profilePicture = profilePicture; }
-
-    @Override
-    public String toString() {
-        return "User [" + role + "] " + username + " (" + email + ") - Status: " + activeStatus;
-    }
+    // Setters
+    public void setUsername(String username)            { this.username = username; }
+    public void setPhone(String phone)                  { this.phone = phone; }
+    public void setAddress(String address)              { this.address = address; }
+    public void setProfilePicture(String profilePicture){ this.profilePicture = profilePicture; }
+    public void setActiveStatus(String activeStatus)    { this.activeStatus = activeStatus; }
+    public void setRole(String role)                    { this.role = role; }
 }

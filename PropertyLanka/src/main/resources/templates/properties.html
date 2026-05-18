@@ -8,117 +8,127 @@
 </head>
 <body>
 
-  <div class="toast" id="toast"></div>
+<div class="toast" id="toast"></div>
 
-  <!-- NAV -->
-  <nav class="nav">
-    <a href="/" class="nav-logo">Property<span>Lanka</span></a>
-    <div class="nav-links">
-      <a href="/"           class="nav-link">Home</a>
-      <a href="/properties" class="nav-link active">Properties</a>
-      <a href="/search"     class="nav-link">Search</a>
-      <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'SELLER'}">
-        <a href="/add-property"     class="nav-link">List Property</a>
-        <a href="/seller-dashboard" class="nav-link">My Dashboard</a>
-      </th:block>
-      <th:block th:if="${session.loggedInUser != null and (session.loggedInUser.role == 'ADMIN' or session.loggedInUser.role == 'PRIMARY_ADMIN')}">
-        <a href="/adminportal" class="nav-link" style="color:#ef4444;font-weight:700;">Admin Portal</a>
-      </th:block>
-    </div>
-    <div class="nav-right">
-      <th:block th:if="${session.loggedInUser == null}">
-        <a href="/login"><button class="btn-ghost">Sign In</button></a>
-        <a href="/register"><button class="btn-primary">Sign Up</button></a>
-      </th:block>
-      <th:block th:if="${session.loggedInUser != null}">
-        <span style="font-size:13px;color:var(--txt2);"
-              th:text="'Hi, ' + ${session.loggedInUser.username}"></span>
-        <a href="/profile"><button class="btn-ghost">Profile</button></a>
-        <a href="/logout"><button class="btn-ghost">Logout</button></a>
-      </th:block>
-      <label class="theme-toggle" title="Toggle light/dark mode">
-        <input type="checkbox" class="theme-checkbox">
-        <div class="theme-track">
-          <span class="icon-moon">🌙</span>
-          <span class="icon-sun">☀️</span>
-        </div>
-        <span class="theme-thumb">🌙</span>
-      </label>
-    </div>
-  </nav>
-
-  <!-- PAGE HEADER -->
-  <div class="page-section" style="padding-bottom:0;">
-    <div class="section-header">
-      <div>
-        <div class="page-title">All Properties</div>
-        <p class="page-subtitle"
-           th:text="${#lists.size(allProperties)} + ' listings available'">
-          Browse all listings
-        </p>
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">Property<span>Lanka</span></a>
+  <div class="nav-links">
+    <a href="/"           class="nav-link">Home</a>
+    <a href="/properties" class="nav-link active">Properties</a>
+    <a href="/search"     class="nav-link">Search</a>
+    <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'SELLER'}">
+      <a href="/add-property"     class="nav-link">List Property</a>
+      <a href="/seller-dashboard" class="nav-link">My Dashboard</a>
+    </th:block>
+    <th:block th:if="${session.loggedInUser != null and (session.loggedInUser.role == 'ADMIN' or session.loggedInUser.role == 'PRIMARY_ADMIN')}">
+      <a href="/adminportal" class="nav-link" style="color:#ef4444;font-weight:700;">Admin Portal</a>
+    </th:block>
+  </div>
+  <div class="nav-right">
+    <th:block th:if="${session.loggedInUser == null}">
+      <a href="/login"><button class="btn-ghost">Sign In</button></a>
+      <a href="/register"><button class="btn-primary">Sign Up</button></a>
+    </th:block>
+    <th:block th:if="${session.loggedInUser != null}">
+      <span style="font-size:13px;color:var(--txt2);"
+            th:text="'Hi, ' + ${session.loggedInUser.username}"></span>
+      <a href="/profile"><button class="btn-ghost">Profile</button></a>
+      <a href="/logout"><button class="btn-ghost">Logout</button></a>
+    </th:block>
+    <label class="theme-toggle" title="Toggle light/dark mode">
+      <input type="checkbox" class="theme-checkbox">
+      <div class="theme-track">
+        <span class="icon-moon">🌙</span>
+        <span class="icon-sun">☀️</span>
       </div>
-      <a href="/search"><button class="btn-ghost">Filter & Search →</button></a>
+      <span class="theme-thumb">🌙</span>
+    </label>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-section" style="padding-bottom:0;">
+  <div class="section-header">
+    <div>
+      <div class="page-title">All Properties</div>
+      <p class="page-subtitle"
+         th:text="${#lists.size(allProperties)} + ' listings available'">
+        Browse all listings
+      </p>
     </div>
+    <a href="/search"><button class="btn-ghost">Filter &amp; Search →</button></a>
+  </div>
+</div>
+
+<!-- PROPERTY GRID -->
+<div class="page-section" style="padding-top:16px;">
+
+  <!-- No properties -->
+  <div th:if="${#lists.isEmpty(allProperties)}"
+       style="text-align:center;padding:80px 20px;color:var(--txt2);">
+    <div style="font-size:52px;margin-bottom:16px;">🏘️</div>
+    <div style="font-size:20px;font-weight:700;">No properties listed yet</div>
+    <div style="font-size:14px;margin-top:8px;">Check back soon.</div>
   </div>
 
-  <!-- PROPERTY GRID -->
-  <div class="page-section" style="padding-top:16px;">
+  <!-- Property cards -->
+  <div class="prop-grid" th:unless="${#lists.isEmpty(allProperties)}">
 
-    <!-- No properties -->
-    <div th:if="${#lists.isEmpty(allProperties)}"
-         style="text-align:center;padding:80px 20px;color:var(--txt2);">
-      <div style="font-size:52px;margin-bottom:16px;">🏘️</div>
-      <div style="font-size:20px;font-weight:700;">No properties listed yet</div>
-      <div style="font-size:14px;margin-top:8px;">Check back soon.</div>
-    </div>
+    <a th:each="p : ${allProperties}"
+       th:if="${p != null}"
+       th:href="@{/view-property/{id}(id=${p.id})}"
+       class="prop-card">
 
-    <!-- Property cards -->
-    <div class="prop-grid" th:unless="${#lists.isEmpty(allProperties)}">
-      <a th:each="p : ${allProperties}"
-         th:href="@{/view-property/{id}(id=${p.id})}"
-         class="prop-card">
+      <!-- Image -->
+      <div class="prop-card-img">
 
-        <!-- Image -->
-        <div class="prop-card-img">
-          <img th:if="${p.image != null and p.image != '' and !p.image.equals('default-house.jpg')}"
-               th:src="${p.image}"
-               alt="Property"
-               style="width:100%;height:100%;object-fit:cover;">
-          <span th:unless="${p.image != null and p.image != '' and !p.image.equals('default-house.jpg')}">
-            <th:block th:switch="${p.propertyType}">
-              <span th:case="'Apartment'">🏢</span>
-              <span th:case="'Land'">🌳</span>
-              <span th:case="'Commercial'">🏗️</span>
-              <span th:case="*">🏠</span>
-            </th:block>
-          </span>
-          <span class="listing-badge"
-                th:classappend="${p.status == 'Available'} ? 'badge-sale' : 'badge-rent'"
-                th:text="${p.status}">Available</span>
+        <!-- Show actual image if it exists -->
+        <img th:if="${p.image != null and !p.image.isEmpty()}"
+             th:src="@{/images/{img}(img=${p.image})}"
+             alt="Property Image"
+             style="width:100%;height:100%;object-fit:cover;"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+
+        <!-- Fallback emoji if no image or image fails to load -->
+        <span th:style="${p.image != null and !p.image.isEmpty()} ? 'display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:52px;' : 'display:flex;width:100%;height:100%;align-items:center;justify-content:center;font-size:52px;'">
+          <th:block th:switch="${p.propertyType}">
+            <span th:case="'Apartment'">🏢</span>
+            <span th:case="'Land'">🌳</span>
+            <span th:case="'Commercial'">🏗️</span>
+            <span th:case="*">🏠</span>
+          </th:block>
+        </span>
+
+        <span class="listing-badge"
+              th:classappend="${p.status == 'Available'} ? 'badge-sale' : 'badge-rent'"
+              th:text="${p.status}">Available</span>
+      </div>
+
+      <!-- Card body -->
+      <div class="prop-card-body">
+        <div class="prop-card-name" th:text="${p.title}">Title</div>
+        <div class="prop-card-loc">
+          <svg viewBox="0 0 24 24" width="12" height="12"
+               stroke="currentColor" fill="none" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span th:text="${p.address}">Address</span>
         </div>
-
-        <!-- Card body -->
-        <div class="prop-card-body">
-          <div class="prop-card-name" th:text="${p.title}">Title</div>
-          <div class="prop-card-loc">
-            <svg viewBox="0 0 24 24" width="12" height="12"
-                 stroke="currentColor" fill="none" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-            <span th:text="${p.address}">Address</span>
-          </div>
-          <div class="prop-card-footer">
-            <div class="prop-price" th:text="'Rs. ' + ${p.price}">Price</div>
-            <div class="prop-tags">
-              <span class="prop-tag" th:text="${p.propertyType}">Type</span>
-            </div>
+        <div class="prop-card-footer">
+          <div class="prop-price"
+               th:text="'Rs. ' + ${#numbers.formatInteger(p.price, 1, 'COMMA')}">Price</div>
+          <div class="prop-tags">
+            <span class="prop-tag" th:text="${p.propertyType}">Type</span>
           </div>
         </div>
-      </a>
-    </div>
+      </div>
+    </a>
+
   </div>
+</div>
 
-  <script th:src="@{/js/theme-toggle.js}"></script>
+<script th:src="@{/js/theme-toggle.js}"></script>
 </body>
 </html>
