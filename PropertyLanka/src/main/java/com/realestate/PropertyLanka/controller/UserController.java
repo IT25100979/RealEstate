@@ -10,6 +10,7 @@ public class UserController {
         this.service = new UserService();
     }
 
+    // user controllers
     public void register(String id, String username, String email, String password, String phone, String address, String role, String pic, String status) {
         System.out.println("\n--- API: POST /users/register ---");
         User newUser = new User(id, username, email, password, phone, address, role, pic, status);

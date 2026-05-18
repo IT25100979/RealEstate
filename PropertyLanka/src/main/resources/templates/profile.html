@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile — PropertyLanka</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/" class="nav-logo">Property<span>Lanka</span></a>
+    <div class="nav-links">
+      <a href="/"       class="nav-link">Home</a>
+      <a href="/properties" class="nav-link">Properties</a>
+    </div>
+    <div class="nav-right">
+      <a href="/logout"><button class="btn-ghost">Logout</button></a>
+      <label class="theme-toggle" title="Toggle light/dark mode">
+        <input type="checkbox" class="theme-checkbox">
+        <div class="theme-track">
+          <span class="icon-moon">🌙</span>
+          <span class="icon-sun">☀️</span>
+        </div>
+        <span class="theme-thumb">🌙</span>
+      </label>
+    </div>
+  </nav>
+
+  <div class="page-section" style="max-width:560px;margin:0 auto;">
+    <div class="page-title">My Profile</div>
+    <p class="page-subtitle">Manage your account details.</p>
+
+    <!-- User info card -->
+    <div style="background:var(--surface);border:1px solid var(--bdr);
+                border-radius:var(--radius-lg);padding:28px;margin-bottom:24px;">
+
+      <!-- Avatar -->
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+        <div class="user-avatar"
+             style="width:56px;height:56px;font-size:20px;"
+             th:text="${#strings.substring(user.username,0,1).toUpperCase()}">U</div>
+        <div>
+          <div style="font-family:var(--font-head);font-size:17px;font-weight:700;"
+               th:text="${user.username}">Username</div>
+          <div style="font-size:12px;color:var(--txt2);" th:text="${user.email}">email</div>
+          <div style="margin-top:4px;">
+            <span class="role-chip"
+                  th:classappend="${user.role == 'ADMIN' or user.role == 'PRIMARY_ADMIN'} ? 'role-admin' : 'role-user'"
+                  th:text="${user.role}">BUYER</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit form -->
+      <form action="/update-profile" method="POST">
+
+        <div class="form-section-bar">Account Details</div>
+
+        <div class="form-group">
+          <label>Email (cannot change)</label>
+          <input type="email" th:value="${user.email}" readonly
+                 style="opacity:.6;cursor:not-allowed;">
+        </div>
+
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" name="newUsername"
+                 th:value="${user.username}" required>
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="text" name="newPhone"
+                 th:value="${user.phone}" required
+                 placeholder="+94 77 000 0000">
+        </div>
+
+        <button type="submit" class="btn-primary btn-full" style="margin-top:8px;">
+          Save Changes
+        </button>
+      </form>
+    </div>
+
+    <!-- Danger zone -->
+    <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);
+                border-radius:var(--radius-lg);padding:22px;">
+      <div style="font-family:var(--font-head);font-size:13px;font-weight:700;
+                  color:#ef4444;margin-bottom:8px;">⚠ Danger Zone</div>
+      <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">
+        Permanently delete your account and all your listings.
+        This cannot be undone.
+      </p>
+      <a th:href="@{/delete-account/{id}(id=${user.id})}"
+         onclick="return confirm('Are you absolutely sure? This cannot be undone.')">
+        <button class="btn-danger" style="width:100%;padding:10px;">
+          Delete My Account Permanently
+        </button>
+      </a>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <a href="/" style="font-size:13px;color:var(--txt2);">← Back to Home</a>
+    </div>
+  </div>
+
+  <script th:src="@{/js/theme-toggle.js}"></script>
+</body>
+</html>

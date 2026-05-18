@@ -2,46 +2,47 @@ package com.realestate.PropertyLanka.service;
 
 import com.realestate.PropertyLanka.model.Inquiry;
 import com.realestate.PropertyLanka.repository.InquiryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class InquiryService {
+
+    @Autowired
     private InquiryRepository repository;
 
-    public InquiryService() {
-        this.repository = new InquiryRepository();
-    }
-
-    // BUYER SENDS INQUIRY
     public void sendInquiry(Inquiry inquiry) {
         if (inquiry.getMessage() == null || inquiry.getMessage().isEmpty()) {
-            System.out.println("❌ Validation Error: Message cannot be empty.");
+            System.out.println(" Message cannot be empty.");
             return;
         }
         repository.save(inquiry);
-        System.out.println("✅ Service: Inquiry sent successfully to the seller!");
     }
 
-    // SELLER VIEWS INQUIRIES (Filtered by Property)
     public List<Inquiry> getInquiriesForProperty(String propertyId) {
-        List<Inquiry> filteredList = new ArrayList<>();
-        for (Inquiry i : repository.findAll()) {
-            if (i.getPropertyId().equals(propertyId)) {
-                filteredList.add(i);
-            }
-        }
-        return filteredList;
+        return repository.findByPropertyId(propertyId);
     }
 
-    // SELLER MARKS AS READ
+    public List<Inquiry> getInquiriesForProperties(List<String> propertyIds) {
+        if (propertyIds == null || propertyIds.isEmpty()) return new ArrayList<>();
+        return repository.findByPropertyIdIn(propertyIds);
+    }
+
+    public List<Inquiry> getAllInquiries() {
+        return repository.findAll();
+    }
+
     public void markAsRead(String inquiryId) {
-        for (Inquiry i : repository.findAll()) {
-            if (i.getId().equals(inquiryId)) {
-                i.setStatus("Read");
-                repository.update(i);
-                System.out.println("✅ Service: Inquiry marked as Read.");
-                return;
-            }
-        }
+        repository.findById(inquiryId).ifPresent(i -> {
+            i.setStatus("Read");
+            repository.save(i);
+        });
+    }
+
+    public void deleteInquiry(String id) {
+        repository.deleteById(id);
+        System.out.println("🗑️ Inquiry " + id + " deleted.");
     }
 }

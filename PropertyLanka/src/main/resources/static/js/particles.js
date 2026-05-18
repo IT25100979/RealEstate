@@ -2,7 +2,7 @@
       const canvas = document.getElementById('particle-canvas');
       const ctx    = canvas.getContext('2d');
 
-      /* ── Resize canvas to fill hero ── */
+      /*  Resize canvas to fill hero  */
       function resize() {
         canvas.width  = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
@@ -10,7 +10,7 @@
       resize();
       window.addEventListener('resize', resize);
 
-      /* ── Particle factory ── */
+      /*  Particle factory  */
       const PURPLE  = [139, 92, 246];
       const VIOLET  = [109, 40, 217];
       const WHITE   = [220, 210, 255];
@@ -87,7 +87,7 @@
       const COUNT = 72;
       const particles = Array.from({ length: COUNT }, () => new Particle());
 
-      /* ── Mouse parallax ── */
+      /*  Mouse parallax */
       let mx = -9999, my = -9999;
       canvas.parentElement.addEventListener('mousemove', e => {
         const rect = canvas.getBoundingClientRect();
@@ -96,7 +96,7 @@
       });
       canvas.parentElement.addEventListener('mouseleave', () => { mx = -9999; my = -9999; });
 
-      /* ── Connecting lines between nearby particles ── */
+      /* Connecting lines between nearby particles  */
       function drawConnections() {
         const MAX_DIST = 90;
         for (let i = 0; i < particles.length; i++) {
@@ -117,7 +117,7 @@
         }
       }
 
-      /* ── Repel from mouse ── */
+      /*  Repel from mouse  */
       function applyMouseRepel(p) {
         if (mx < 0) return;
         const dx   = p.x - mx;
@@ -131,7 +131,7 @@
         }
       }
 
-      /* ── Render loop ── */
+      /* Render loop */
       function loop() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawConnections();

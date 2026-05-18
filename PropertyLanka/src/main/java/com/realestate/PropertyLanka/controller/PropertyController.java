@@ -1,87 +1,159 @@
 package com.realestate.PropertyLanka.controller;
 
 import com.realestate.PropertyLanka.model.Property;
+import com.realestate.PropertyLanka.model.User;
 import com.realestate.PropertyLanka.service.PropertyService;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.UUID;
 
-@RestController
-@RequestMapping("/properties")
-
+@Controller
 public class PropertyController {
-    private PropertyService service;
 
-    public PropertyController() {
-        this.service = new PropertyService();
+    @Autowired
+    private PropertyService propertyService;
+
+    @Value("${app.upload.dir:uploads}")
+    private String uploadDir;
+
+    @GetMapping("/add-property")
+    public String showAddPropertyForm(HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null || !user.getRole().equalsIgnoreCase("SELLER")) {
+            return "redirect:/login";
+        }
+        return "add-property";
     }
 
-    //HOME MESSAGE
-    @GetMapping("/")
-    public String home() {
-        return "Welcome to PropertyLanka!";
-    }
+    @PostMapping("/add-property")
+    public String processAddProperty(
+            @RequestParam String title,
+            @RequestParam String description,
+            @RequestParam double price,
+            @RequestParam String address,
+            @RequestParam String propertyType,
+            @RequestParam("imageFile") MultipartFile imageFile,
+            HttpSession session) {
 
-    //CREATE NEW PROPERTY
-    @PostMapping
-    public String createNewProperty(@RequestBody Property property) {
-        System.out.println("\n--- API: POST /properties ---");
-        service.addProperty(property);
-        return "Property created successfully!";
-    }
-    /*public void createNewProperty(String id,
-                                  String title, String description, String propertyType, String listingType,
-                                  double price,
-                                  String address, String city, String state, String zip,
-                                  int bedrooms, int bathrooms, double area,
-                                  String status, String image, String createdDate,
-                                  String listerName, String listerPhone, String listerEmail) {
-        System.out.println("\n--- API: POST /properties ---");
-        Property newProp = new Property (id, title, description, propertyType, listingType, price, address, city, state, zip, bedrooms, bathrooms, area, status, image, createdDate, listerName, listerPhone, listerEmail);
-        service.addProperty(newProp);
-    }*/
+        User seller = (User) session.getAttribute("loggedInUser");
+        if (seller == null || !seller.getRole().equalsIgnoreCase("SELLER")) return "redirect:/login";
 
-    //VIEW ALL PROPERTIES
-    @GetMapping
-    public List<Property> viewAllProperties() {
-        System.out.println("\n--- API: GET /properties ---");
-        return service.getAllProperties();
-    }
-    /*public void viewAllProperties() {
-        System.out.println("\n--- API: GET /properties ---");
-        List<Property> list = service.getAllProperties();
-        if (list.isEmpty()) {
-            System.out.println("No properties found.");
-        } else {
-            for (Property p : list) {
-                System.out.println(p.toString());
+        String imagePath = "";
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                Path uploadPath = Paths.get(uploadDir).toAbsolutePath();
+                System.out.println(" Upload path: " + uploadPath);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+                Path filePath = uploadPath.resolve(fileName);
+                imageFile.transferTo(filePath.toFile());
+                imagePath = "/uploads/" + fileName;
+            } catch (IOException e) {
+                System.out.println(" Image upload failed: " + e.getMessage());
             }
         }
-    }*/
 
-    //UPDATE PROPERTY PRICE
-    @PutMapping("/{id}")
-    public String updatePropertyPrice(@PathVariable String id, @RequestParam double newPrice) {
-        System.out.println("\n--- API: PUT /properties/" + id + " ---");
-        service.editPropertyPrice(id, newPrice);
-        return "Property updated successfully!";
-    }
-    /*public void updatePropertyPrice(String id, double newPrice) {
-        System.out.println("\n--- API: PUT /properties/" + id + " ---");
-        service.editPropertyPrice(id, newPrice);
-    }*/
+        String propertyId  = "P" + System.currentTimeMillis();
+        String createdDate = LocalDate.now().toString();
 
-    //DELETE PROPERTY
-    @DeleteMapping("/{id}")
-    public String deleteProperty(@PathVariable String id) {
-        System.out.println("\n--- API: DELETE /properties/" + id + " ---");
-        service.removeProperty(id);
-        return "Property deleted successfully!";
+        Property newProperty = new Property(
+                propertyId, title, description, propertyType, "Sale",
+                price, address, "", "", "",
+                0, 0, 0.0, "Available", imagePath, createdDate,
+                seller.getUsername(), seller.getPhone(), seller.getEmail()
+        );
+        newProperty.setUserId(seller.getId());
+
+        propertyService.addProperty(newProperty);
+        System.out.println("New Property Listed: " + title + " by Seller ID: " + seller.getId());
+
+        return "redirect:/seller-dashboard";
     }
-    /*public void deleteProperty(String id) {
-        System.out.println("\n--- API: DELETE /properties/" + id + " ---");
-        service.removeProperty(id);
-    }*/
+
+    @GetMapping("/edit-property/{id}")
+    public String showEditPropertyForm(@PathVariable String id, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null || !user.getRole().equalsIgnoreCase("SELLER")) return "redirect:/login";
+
+        Property property = propertyService.getPropertyById(id);
+
+        if (property == null || !property.getUserId().equals(user.getId())) {
+            System.out.println(" Unauthorized edit attempt blocked!");
+            return "redirect:/seller-dashboard";
+        }
+
+        model.addAttribute("property", property);
+        return "edit-property";
+    }
+
+    @PostMapping("/edit-property")
+    public String processEditProperty(
+            @RequestParam String id,
+            @RequestParam String title,
+            @RequestParam String description,
+            @RequestParam double price,
+            @RequestParam String status,
+            HttpSession session) {
+
+        User seller = (User) session.getAttribute("loggedInUser");
+        if (seller == null || !seller.getRole().equalsIgnoreCase("SELLER")) return "redirect:/login";
+
+        Property existing = propertyService.getPropertyById(id);
+
+        if (existing != null && existing.getUserId().equals(seller.getId())) {
+            existing.setTitle(title);
+            existing.setDescription(description);
+            existing.setPrice(price);
+            existing.setStatus(status);
+            propertyService.addProperty(existing);
+            System.out.println(" Property Updated: " + title);
+        }
+
+        return "redirect:/seller-dashboard";
+    }
+
+    @GetMapping("/delete-property/{id}")
+    public String handleDeleteProperty(@PathVariable String id, HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null || !user.getRole().equalsIgnoreCase("SELLER")) return "redirect:/login";
+
+        Property property = propertyService.getPropertyById(id);
+
+        if (property != null && property.getUserId().equals(user.getId())) {
+            propertyService.removeProperty(id);
+            System.out.println("🗑 Property " + id + " deleted by Seller " + user.getUsername());
+        } else {
+            System.out.println(" Unauthorized delete attempt blocked for Property ID: " + id);
+        }
+
+        return "redirect:/seller-dashboard";
+    }
+
+    @GetMapping("/view-property/{id}")
+    public String viewPropertyDetails(@PathVariable String id, HttpSession session, Model model) {
+        Property property = propertyService.getPropertyById(id);
+        if (property == null) return "redirect:/";
+
+        model.addAttribute("property", property);
+        model.addAttribute("user", session.getAttribute("loggedInUser"));
+
+        return "view-property";
+    }
 }

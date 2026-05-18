@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Property — PropertyLanka</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/" class="nav-logo">Property<span>Lanka</span></a>
+    <div class="nav-links">
+      <a href="/"                 class="nav-link">Home</a>
+      <a href="/seller-dashboard" class="nav-link">My Dashboard</a>
+    </div>
+    <div class="nav-right">
+      <th:block th:if="${session.loggedInUser != null}">
+        <span style="font-size:13px;color:var(--txt2);"
+              th:text="'Hi, ' + ${session.loggedInUser.username}"></span>
+        <a href="/logout"><button class="btn-ghost">Logout</button></a>
+      </th:block>
+      <label class="theme-toggle" title="Toggle light/dark mode">
+        <input type="checkbox" class="theme-checkbox">
+        <div class="theme-track">
+          <span class="icon-moon">🌙</span>
+          <span class="icon-sun">☀️</span>
+        </div>
+        <span class="theme-thumb">🌙</span>
+      </label>
+    </div>
+  </nav>
+
+  <div class="page-section" style="max-width:700px;margin:0 auto;">
+    <div class="page-title">Edit Property</div>
+    <p class="page-subtitle">Update the details for your listing.</p>
+
+    <form th:action="@{/edit-property}" method="POST"
+          style="background:var(--surface);border:1px solid var(--bdr);
+                 border-radius:var(--radius-lg);padding:32px;">
+
+      <!-- Hidden ID — critical for backend to know which property to update -->
+      <input type="hidden" name="id" th:value="${property.id}">
+
+      <div class="form-section-bar">Basic Info</div>
+
+      <div class="form-group">
+        <label>Property Title</label>
+        <input type="text" name="title"
+               th:value="${property.title}" required>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" required rows="4"
+                  th:text="${property.description}"></textarea>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Price (Rs.)</label>
+          <input type="number" name="price"
+                 th:value="${property.price}" required min="1">
+        </div>
+        <div class="form-group">
+          <label>Property Type</label>
+          <select name="propertyType" required>
+            <option value="House"
+                    th:selected="${property.propertyType == 'House'}">House</option>
+            <option value="Apartment"
+                    th:selected="${property.propertyType == 'Apartment'}">Apartment</option>
+            <option value="Land"
+                    th:selected="${property.propertyType == 'Land'}">Land</option>
+            <option value="Commercial"
+                    th:selected="${property.propertyType == 'Commercial'}">Commercial</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section-bar">Location & Status</div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" name="address"
+                 th:value="${property.address}" required>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select name="status" required>
+            <option value="Available"
+                    th:selected="${property.status == 'Available'}">Available</option>
+            <option value="Sold"
+                    th:selected="${property.status == 'Sold'}">Sold</option>
+            <option value="Rented"
+                    th:selected="${property.status == 'Rented'}">Rented</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section-bar">Media</div>
+
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="text" name="image" th:value="${property.image}">
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:8px;">
+        <button type="submit" class="btn-primary" style="flex:1;padding:12px;">
+          Save Changes
+        </button>
+        <a href="/seller-dashboard" style="flex:1;">
+          <button type="button" class="btn-ghost" style="width:100%;padding:12px;">
+            Cancel
+          </button>
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <script th:src="@{/js/theme-toggle.js}"></script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal — PropertyLanka</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">
+    Property<span>Lanka</span>
+
+  </a>
+  <div class="nav-links">
+    <a href="/"            class="nav-link">Home</a>
+    <a href="/properties"  class="nav-link">Properties</a>
+    <a href="/adminportal" class="nav-link active">Admin Portal</a>
+  </div>
+  <div class="nav-right">
+    <div class="user-pill">
+      <div class="user-avatar admin-avatar"
+           th:text="${#strings.substring(adminUser.username,0,2).toUpperCase()}">AD</div>
+      <span class="user-name"
+            th:text="${adminUser.username} + ' (' + ${adminUser.role} + ')'">Admin</span>
+    </div>
+    <a href="/logout"><button class="btn-ghost">Logout</button></a>
+    <label class="theme-toggle" title="Toggle light/dark mode">
+      <input type="checkbox" class="theme-checkbox">
+      <div class="theme-track">
+        <span class="icon-moon">🌙</span>
+        <span class="icon-sun">☀️</span>
+      </div>
+      <span class="theme-thumb">🌙</span>
+    </label>
+  </div>
+</nav>
+
+<!-- Page header -->
+<div class="admin-header">
+  <div class="admin-header-inner">
+    <div>
+      <div class="admin-title">Admin Dashboard</div>
+      <p class="admin-subtitle">Manage users, properties, and system activity.</p>
+    </div>
+  </div>
+</div>
+
+<div class="page-section">
+
+  <!-- Stats row -->
+  <div class="admin-stats-row">
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">👥</div>
+      <div class="admin-stat-num" th:text="${#lists.size(allUsers)}">0</div>
+      <div class="admin-stat-lbl">Total Users</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">🏘️</div>
+      <div class="admin-stat-num" th:text="${#lists.size(allProperties)}">0</div>
+      <div class="admin-stat-lbl">Total Properties</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">📨</div>
+      <div class="admin-stat-num" th:text="${#lists.size(allInquiries)}">0</div>
+      <div class="admin-stat-lbl">Total Inquiries</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">🔑</div>
+      <div class="admin-stat-num" th:text="${adminUser.role}">ADMIN</div>
+      <div class="admin-stat-lbl">Your Access Level</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="admin-tabs" id="admin-tabs">
+    <button class="admin-tab active" data-tab="users">👥 Users</button>
+    <button class="admin-tab" data-tab="properties">🏘️ Properties</button>
+    <button class="admin-tab" data-tab="inquiries">📨 Inquiries</button>
+  </div>
+
+  <!-- ── USERS TAB ── -->
+  <div class="admin-tab-content" id="tab-users">
+    <div class="admin-table-toolbar">
+      <input class="filter-input" type="text" id="user-search"
+             placeholder="Search users..." style="max-width:260px;">
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="user-table">
+        <thead>
+        <tr>
+          <th>Role</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${allUsers}">
+          <td>
+                <span class="role-chip"
+                      th:classappend="${u.role == 'ADMIN' or u.role == 'PRIMARY_ADMIN'} ? 'role-admin' : 'role-user'"
+                      th:text="${u.role}"></span>
+          </td>
+          <td th:text="${u.username}"></td>
+          <td th:text="${u.email}"></td>
+          <td>
+                <span th:classappend="${u.activeStatus == 'Banned'} ? 'status-chip status-sold' : 'status-chip status-available'"
+                      th:text="${u.activeStatus}">Active</span>
+          </td>
+          <td class="admin-actions">
+            <!-- Ban button — shown when Active -->
+            <a th:if="${u.activeStatus != 'Banned'}"
+               th:href="@{/admin/ban/{id}(id=${u.id})}"
+               onclick="return confirm('Ban this user?')">
+              <button class="admin-btn-delete">Ban</button>
+            </a>
+            <!-- Unban button — shown when Banned -->
+            <a th:if="${u.activeStatus == 'Banned'}"
+               th:href="@{/admin/unban/{id}(id=${u.id})}"
+               onclick="return confirm('Unban this user?')">
+              <button class="admin-btn-edit">Unban</button>
+            </a>
+            <!-- Delete user -->
+            <a th:href="@{/admin/delete-user/{id}(id=${u.id})}"
+               onclick="return confirm('Permanently delete this user?')">
+              <button class="admin-btn-delete" style="background:rgba(100,0,0,0.3);">Delete</button>
+            </a>
+            <!-- Make Primary Admin — only PRIMARY_ADMIN can do this to other ADMINs -->
+            <a th:if="${adminUser.role == 'PRIMARY_ADMIN' and u.role == 'ADMIN'}"
+               th:href="@{/admin/make-primary/{id}(id=${u.id})}">
+              <button class="admin-btn-edit">Make Primary</button>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── PROPERTIES TAB ── -->
+  <div class="admin-tab-content hidden" id="tab-properties">
+    <div class="admin-table-toolbar">
+      <input class="filter-input" type="text" id="prop-search"
+             placeholder="Search properties..." style="max-width:260px;">
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="prop-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="prop : ${allProperties}">
+          <td th:text="${prop.id}"></td>
+          <td th:text="${prop.title}"></td>
+          <td th:text="${prop.propertyType}"></td>
+          <td th:text="'Rs. ' + ${prop.price}"></td>
+          <td>
+                <span class="status-chip"
+                      th:classappend="${prop.status == 'Available'} ? 'status-available' :
+                                      (${prop.status == 'Sold'} ? 'status-sold' : 'status-rented')"
+                      th:text="${prop.status}"></span>
+          </td>
+          <td class="admin-actions">
+            <a th:href="@{/view-property/{id}(id=${prop.id})}">
+              <button class="admin-btn-view">View</button>
+            </a>
+            <a th:href="@{/admin/delete-property/{id}(id=${prop.id})}"
+               onclick="return confirm('Force delete this listing?')">
+              <button class="admin-btn-delete">Force Delete</button>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── INQUIRIES TAB ── -->
+  <div class="admin-tab-content hidden" id="tab-inquiries">
+    <div class="admin-table-toolbar">
+      <input class="filter-input" type="text" id="inq-search"
+             placeholder="Search inquiries..." style="max-width:260px;">
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="inq-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Property ID</th>
+          <th>Buyer ID</th>
+          <th>Message</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="inq : ${allInquiries}">
+          <td th:text="${inq.id}"></td>
+          <td th:text="${inq.propertyId}"></td>
+          <td th:text="${inq.buyerId}"></td>
+          <td th:text="${inq.message}" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></td>
+          <td th:text="${inq.date}"></td>
+          <td>
+                <span class="status-chip"
+                      th:classappend="${inq.status == 'Read'} ? 'status-available' : 'status-rented'"
+                      th:text="${inq.status}"></span>
+          </td>
+          <td class="admin-actions">
+            <a th:href="@{/admin/delete-inquiry/{id}(id=${inq.id})}"
+               onclick="return confirm('Delete this inquiry?')">
+              <button class="admin-btn-delete">Delete</button>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script th:src="@{/js/admin.js}"></script>
+<script th:src="@{/js/theme-toggle.js}"></script>
+</body>
+</html>
