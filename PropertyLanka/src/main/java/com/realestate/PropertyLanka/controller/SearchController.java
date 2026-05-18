@@ -4,6 +4,7 @@ import com.realestate.PropertyLanka.model.Property;
 import com.realestate.PropertyLanka.service.SearchService;
 import com.realestate.PropertyLanka.util.PriceAscComparator;
 import com.realestate.PropertyLanka.util.PriceDescComparator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,9 @@ import java.util.List;
 @Controller
 public class SearchController {
 
-    private SearchService searchService = new SearchService();
+    // @Autowired — Spring creates and injects SearchService automatically
+    @Autowired
+    private SearchService searchService;
 
     @GetMapping("/search")
     public String showSearchPage(
@@ -35,10 +38,9 @@ public class SearchController {
         model.addAttribute("maxPrice",     maxPrice);
         model.addAttribute("sort",         sort);
 
-        // Remove the early return so that all properties are shown by default
-
-        // 1. Filter using the new SearchService
-        List<Property> results = searchService.searchProperties(keyword, address, propertyType, status, maxPrice);
+        // 1. Filter using SearchService
+        List<Property> results = searchService.searchProperties(
+                keyword, address, propertyType, status, maxPrice);
 
         // 2. Sort using OOP Comparators
         if ("price_asc".equals(sort)) {
@@ -46,8 +48,7 @@ public class SearchController {
         } else if ("price_desc".equals(sort)) {
             results.sort(new PriceDescComparator());
         } else {
-            // "newest"
-            Collections.reverse(results);
+            Collections.reverse(results); // newest first
         }
 
         model.addAttribute("results",     results);
