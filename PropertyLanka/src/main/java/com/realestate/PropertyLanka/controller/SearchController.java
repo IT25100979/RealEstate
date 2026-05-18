@@ -30,7 +30,7 @@ public class SearchController {
             @RequestParam(defaultValue = "newest") String sort,
             Model model) {
 
-        // Echo filter values back so form stays filled in
+
         model.addAttribute("keyword",      keyword);
         model.addAttribute("address",      address);
         model.addAttribute("propertyType", propertyType);
@@ -38,7 +38,7 @@ public class SearchController {
         model.addAttribute("maxPrice",     maxPrice);
         model.addAttribute("sort",         sort);
 
-        //  shows everything if none selected
+
         List<Property> results = propertyService.getAllProperties().stream()
             .filter(p -> matchesKeyword(p, keyword))
             .filter(p -> matchesAddress(p, address))

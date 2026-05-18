@@ -16,7 +16,7 @@ public class UserProfileController {
     @Autowired
     private UserService userService;
 
-    //update profile
+    // profile update
     @PostMapping("/update-profile")
     public String updateProfile(
             @RequestParam String newUsername,
@@ -36,7 +36,7 @@ public class UserProfileController {
         return "redirect:/profile";
     }
 
-    //delete account
+    // account delete
     @GetMapping("/delete-account/{id}")
     public String deleteAccount(@PathVariable String id, HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");

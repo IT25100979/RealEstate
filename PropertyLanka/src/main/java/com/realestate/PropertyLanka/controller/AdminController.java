@@ -18,7 +18,7 @@ public class AdminController {
     @Autowired private PropertyService propertyService;
     @Autowired private InquiryService inquiryService;
 
-    //  Show admin dashboard
+    //  Show admin
     @GetMapping("/adminportal")
     public String showAdminPortal(HttpSession session, Model model) {
         User user = (User) session.getAttribute("loggedInUser");
@@ -32,7 +32,7 @@ public class AdminController {
         return "admin-dashboard";
     }
 
-    // Ban a user
+    // Ban user
     @GetMapping("/admin/ban/{id}")
     public String banUser(@PathVariable String id, HttpSession session) {
         User admin = (User) session.getAttribute("loggedInUser");
@@ -43,7 +43,7 @@ public class AdminController {
         return "redirect:/adminportal";
     }
 
-    // Unban a user
+    // Unban user
     @GetMapping("/admin/unban/{id}")
     public String unbanUser(@PathVariable String id, HttpSession session) {
         User admin = (User) session.getAttribute("loggedInUser");
@@ -54,7 +54,7 @@ public class AdminController {
         return "redirect:/adminportal";
     }
 
-    // Delete a user
+    // Delete user
     @GetMapping("/admin/delete-user/{id}")
     public String deleteUser(@PathVariable String id, HttpSession session) {
         User admin = (User) session.getAttribute("loggedInUser");
@@ -65,7 +65,7 @@ public class AdminController {
         return "redirect:/adminportal";
     }
 
-    // Make Primary Admin
+    //  Admin create
     @GetMapping("/admin/make-primary/{id}")
     public String makePrimary(@PathVariable String id, HttpSession session) {
         User admin = (User) session.getAttribute("loggedInUser");
@@ -76,7 +76,7 @@ public class AdminController {
         return "redirect:/adminportal";
     }
 
-    // Force delete a property
+    //  delete a property
     @GetMapping("/admin/delete-property/{id}")
     public String deleteProperty(@PathVariable String id, HttpSession session) {
         User admin = (User) session.getAttribute("loggedInUser");
@@ -87,7 +87,7 @@ public class AdminController {
         return "redirect:/adminportal";
     }
 
-    // Delete an inquiry
+    // Delete inquiry
     @GetMapping("/admin/delete-inquiry/{id}")
     public String deleteInquiry(@PathVariable String id, HttpSession session) {
         User admin = (User) session.getAttribute("loggedInUser");

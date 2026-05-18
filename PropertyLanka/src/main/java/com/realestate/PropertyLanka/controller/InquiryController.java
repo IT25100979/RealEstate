@@ -19,7 +19,7 @@ public class InquiryController {
     @Autowired
     private InquiryService inquiryService;
 
-    //Buyer Send inquiry
+    // Send inquiry
     @PostMapping("/send-inquiry")
     public String processSendInquiry(
             @RequestParam String propertyId,

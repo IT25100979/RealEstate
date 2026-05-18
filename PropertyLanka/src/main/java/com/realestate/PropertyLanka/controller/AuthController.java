@@ -16,7 +16,7 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    //  SHOW THE PAGES
+    // show pages
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
@@ -27,7 +27,7 @@ public class AuthController {
         return "register";
     }
 
-    //  HANDLE SIGN UP
+    // signup
     @PostMapping("/register")
     public String processRegistration(
             @RequestParam String username,
@@ -44,7 +44,7 @@ public class AuthController {
         return "redirect:/login";
     }
 
-    // HANDLE LOG IN
+    // login
     @PostMapping("/login")
     public String processLogin(
             @RequestParam String email,
@@ -71,7 +71,7 @@ public class AuthController {
         }
     }
 
-    // HANDLE LOG OUT
+    // log out
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
