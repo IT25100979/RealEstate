@@ -1,7 +1,6 @@
 package com.realestate.PropertyLanka.service;
 
 import com.realestate.PropertyLanka.model.Property;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,18 +9,15 @@ import java.util.stream.Collectors;
 @Service
 public class SearchService {
 
-    @Autowired
     private PropertyService propertyService;
 
-    public List<Property> searchProperties(
-            String keyword,
-            String address,
-            String propertyType,
-            String status,
-            Double maxPrice) {
+    public SearchService() {
+        this.propertyService = new PropertyService();
+    }
 
+    public List<Property> searchProperties(String keyword, String address, String propertyType, String status, Double maxPrice) {
         List<Property> all = propertyService.getAllProperties();
-
+        
         return all.stream()
                 .filter(p -> matchesKeyword(p, keyword))
                 .filter(p -> matchesAddress(p, address))
