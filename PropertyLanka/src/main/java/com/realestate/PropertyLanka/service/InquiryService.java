@@ -30,10 +30,19 @@ public class InquiryService {
         return repository.findByPropertyIdIn(propertyIds);
     }
 
+    public List<Inquiry> getAllInquiries() {
+        return repository.findAll();
+    }
+
     public void markAsRead(String inquiryId) {
         repository.findById(inquiryId).ifPresent(i -> {
             i.setStatus("Read");
             repository.save(i);
         });
+    }
+
+    public void deleteInquiry(String id) {
+        repository.deleteById(id);
+        System.out.println("🗑️ Inquiry " + id + " deleted.");
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-
 @Service
 public class UserService {
 
@@ -27,10 +26,10 @@ public class UserService {
                 .filter(u -> u.getPassword().equals(password))
                 .orElse(null);
     }
+
     public List<User> getAllUsers() {
         return repository.findAll();
     }
-
 
     public User getUserProfile(String id) {
         return repository.findById(id).orElse(null);
@@ -47,5 +46,31 @@ public class UserService {
 
     public void deleteAccount(String id) {
         repository.deleteById(id);
+    }
+    public void banUser(String id) {
+        User u = repository.findById(id).orElse(null);
+        if (u != null) {
+            u.setActiveStatus("Banned");
+            repository.save(u);
+            System.out.println("🚫 User banned.");
+        }
+    }
+
+    public void unbanUser(String id) {
+        User u = repository.findById(id).orElse(null);
+        if (u != null) {
+            u.setActiveStatus("Active");
+            repository.save(u);
+            System.out.println("✅ User unbanned.");
+        }
+    }
+
+    public void makePrimaryAdmin(String id) {
+        User u = repository.findById(id).orElse(null);
+        if (u != null) {
+            u.setRole("PRIMARY_ADMIN");
+            repository.save(u);
+            System.out.println("⭐ Promoted to PRIMARY_ADMIN.");
+        }
     }
 }

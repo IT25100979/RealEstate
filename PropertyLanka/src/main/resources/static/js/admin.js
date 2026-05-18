@@ -40,3 +40,14 @@
       setTimeout(() => t.classList.remove('show'), 3000);
     }
 
+    // Inquiry search filter
+    const inqSearch = document.getElementById('inq-search');
+    if (inqSearch) {
+      inqSearch.addEventListener('input', function () {
+        const val = this.value.toLowerCase();
+        document.querySelectorAll('#inq-table tbody tr').forEach(row => {
+          row.style.display = row.textContent.toLowerCase().includes(val) ? '' : 'none';
+        });
+      });
+    }
+

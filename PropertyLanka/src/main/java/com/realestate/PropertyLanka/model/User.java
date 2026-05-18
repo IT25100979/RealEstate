@@ -38,19 +38,21 @@ public class User {
     }
 
     // Getters
-    public String getId()            { return id; }
-    public String getUsername()      { return username; }
-    public String getEmail()         { return email; }
-    public String getPassword()      { return password; }
-    public String getPhone()         { return phone; }
-    public String getAddress()       { return address; }
-    public String getRole()          { return role; }
-    public String getProfilePicture(){ return profilePicture; }
-    public String getActiveStatus()  { return activeStatus; }
+    public String getId()             { return id; }
+    public String getUsername()       { return username; }
+    public String getEmail()          { return email; }
+    public String getPassword()       { return password; }
+    public String getPhone()          { return phone; }
+    public String getAddress()        { return address; }
+    public String getRole()           { return role; }
+    public String getProfilePicture() { return profilePicture; }
+    public String getActiveStatus()   { return activeStatus; }
 
     // Setters
-    public void setUsername(String username)           { this.username = username; }
-    public void setPhone(String phone)                 { this.phone = phone; }
-    public void setAddress(String address)             { this.address = address; }
+    public void setUsername(String username)            { this.username = username; }
+    public void setPhone(String phone)                  { this.phone = phone; }
+    public void setAddress(String address)              { this.address = address; }
     public void setProfilePicture(String profilePicture){ this.profilePicture = profilePicture; }
+    public void setActiveStatus(String activeStatus)    { this.activeStatus = activeStatus; }
+    public void setRole(String role)                    { this.role = role; }
 }
