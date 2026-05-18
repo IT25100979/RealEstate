@@ -12,7 +12,7 @@ public class PropertiesPageController {
     @Autowired
     private PropertyService propertyService;
 
-    // ── ALL PROPERTIES PAGE ──────────────────────────────
+
     @GetMapping("/properties")
     public String showPropertiesPage(Model model) {
         model.addAttribute("allProperties", propertyService.getAllProperties());

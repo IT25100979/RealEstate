@@ -1,11 +1,11 @@
-/* ================================================
+/*
    theme-toggle.js
    Include this in every page BEFORE </body>:
      <script src="theme-toggle.js"></script>
 
    It reads the saved preference from localStorage,
    applies the theme on load, and wires up the toggle.
-================================================ */
+ */
 
 (function () {
   const HTML  = document.documentElement;

@@ -14,11 +14,11 @@ public class UserService {
 
     public void registerUser(User newUser) {
         if (repository.findByEmail(newUser.getEmail()).isPresent()) {
-            System.out.println("❌ Registration Failed: Email already in use!");
+            System.out.println(" Registration Failed: Email already in use!");
             return;
         }
         repository.save(newUser);
-        System.out.println("✅ User '" + newUser.getUsername() + "' registered.");
+        System.out.println(" User '" + newUser.getUsername() + "' registered.");
     }
 
     public User login(String email, String password) {
@@ -52,7 +52,7 @@ public class UserService {
         if (u != null) {
             u.setActiveStatus("Banned");
             repository.save(u);
-            System.out.println("🚫 User banned.");
+            System.out.println(" User banned.");
         }
     }
 
@@ -61,7 +61,7 @@ public class UserService {
         if (u != null) {
             u.setActiveStatus("Active");
             repository.save(u);
-            System.out.println("✅ User unbanned.");
+            System.out.println(" User unbanned.");
         }
     }
 
@@ -70,7 +70,7 @@ public class UserService {
         if (u != null) {
             u.setRole("PRIMARY_ADMIN");
             repository.save(u);
-            System.out.println("⭐ Promoted to PRIMARY_ADMIN.");
+            System.out.println("Promoted to PRIMARY_ADMIN.");
         }
     }
 }

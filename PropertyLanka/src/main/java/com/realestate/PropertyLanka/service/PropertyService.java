@@ -14,7 +14,7 @@ public class PropertyService {
 
     public void addProperty(Property property) {
         if (property.getPrice() <= 0) {
-            System.out.println("❌ Validation Error: Price must be > 0.");
+            System.out.println(" Validation Error: Price must be > 0.");
             return;
         }
         repository.save(property);

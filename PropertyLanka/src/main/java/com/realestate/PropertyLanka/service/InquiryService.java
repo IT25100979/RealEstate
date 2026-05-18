@@ -15,7 +15,7 @@ public class InquiryService {
 
     public void sendInquiry(Inquiry inquiry) {
         if (inquiry.getMessage() == null || inquiry.getMessage().isEmpty()) {
-            System.out.println("❌ Message cannot be empty.");
+            System.out.println(" Message cannot be empty.");
             return;
         }
         repository.save(inquiry);

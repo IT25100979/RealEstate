@@ -1,4 +1,4 @@
-/* ── Tab switching ── */
+/*  Tab switching */
     document.querySelectorAll('.admin-tab').forEach(tab => {
       tab.addEventListener('click', function () {
         document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
@@ -8,7 +8,7 @@
       });
     });
 
-    /* ── Property table search ── */
+    /*  Property table search  */
     document.getElementById('prop-search').addEventListener('input', function () {
       const q = this.value.toLowerCase();
       document.querySelectorAll('#prop-table tbody tr').forEach(row => {
@@ -16,7 +16,7 @@
       });
     });
 
-    /* ── User table search ── */
+    /* User table search  */
     document.getElementById('user-search').addEventListener('input', function () {
       const q = this.value.toLowerCase();
       document.querySelectorAll('#user-table tbody tr').forEach(row => {
@@ -24,7 +24,7 @@
       });
     });
 
-    /* ── Delete confirmation ── */
+    /*  Delete confirmation  */
     function confirmDelete(type, id) {
       if (confirm('Are you sure you want to delete this ' + type + '? This cannot be undone.')) {
         /* In real app this would submit a form to Delete[Property/User]Servlet */
@@ -32,7 +32,7 @@
       }
     }
 
-    /* ── Toast helper ── */
+    /*  Toast helper  */
     function showToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg;

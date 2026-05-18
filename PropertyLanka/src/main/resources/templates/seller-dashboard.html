@@ -35,7 +35,7 @@
 
 <div class="page-section">
 
-  <!-- Header row -->
+  <! Header row>
   <div class="section-header">
     <div>
       <div class="page-title"
@@ -47,7 +47,7 @@
     </a>
   </div>
 
-  <!-- ── PROPERTIES TABLE ── -->
+  < Properties table>
   <div style="background:var(--surface);border:1px solid var(--bdr);
                 border-radius:var(--radius-lg);overflow:hidden;margin-bottom:32px;">
 
@@ -60,7 +60,7 @@
             th:text="${#lists.size(properties)} + ' properties'"></span>
     </div>
 
-    <!-- No listings yet -->
+    <! No listings yet >
     <div th:if="${#lists.isEmpty(properties)}"
          style="padding:48px;text-align:center;color:var(--txt2);">
       <div style="font-size:40px;margin-bottom:12px;">🏘️</div>
@@ -70,7 +70,7 @@
       </a>
     </div>
 
-    <!-- Listings table -->
+    <! Listings table>
     <div th:unless="${#lists.isEmpty(properties)}" style="overflow-x:auto;">
       <table class="admin-table">
         <thead>
@@ -111,7 +111,7 @@
     </div>
   </div>
 
-  <!-- ── INQUIRIES / INBOX ── -->
+  <! INQUIRIES / INBOX >
   <div style="background:var(--surface);border:1px solid var(--bdr);
                 border-radius:var(--radius-lg);overflow:hidden;">
 
@@ -126,7 +126,7 @@
             th:text="${#lists.size(inquiries)} + ' messages'"></span>
     </div>
 
-    <!-- Empty inbox -->
+    <! Empty inbox >
     <div th:if="${#lists.isEmpty(inquiries)}"
          style="padding:48px;text-align:center;color:var(--txt2);">
       <div style="font-size:40px;margin-bottom:12px;">📭</div>
@@ -136,7 +136,7 @@
       </div>
     </div>
 
-    <!-- Inquiries table -->
+    <! Inquiries table >
     <div th:unless="${#lists.isEmpty(inquiries)}" style="overflow-x:auto;">
       <table class="admin-table">
         <thead>

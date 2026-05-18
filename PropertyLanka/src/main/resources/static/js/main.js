@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Reset transform when mouse leaves
+        // Reset transform for mouse
         heroSection.addEventListener('mouseleave', () => {
             cards.forEach(card => {
                 card.style.transform = `translate(0px, 0px) rotate(var(--r))`;
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Disable transition during mouse movement for snappier parallax
+        // Disable transition in mouse
         heroSection.addEventListener('mouseenter', () => {
             cards.forEach(card => {
                 card.style.transition = 'none';

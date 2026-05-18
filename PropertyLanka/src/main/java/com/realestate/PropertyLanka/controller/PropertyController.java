@@ -56,7 +56,7 @@ public class PropertyController {
         if (imageFile != null && !imageFile.isEmpty()) {
             try {
                 Path uploadPath = Paths.get(uploadDir).toAbsolutePath();
-                System.out.println("📁 Upload path: " + uploadPath);
+                System.out.println(" Upload path: " + uploadPath);
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
@@ -66,7 +66,7 @@ public class PropertyController {
                 imageFile.transferTo(filePath.toFile());
                 imagePath = "/uploads/" + fileName;
             } catch (IOException e) {
-                System.out.println("❌ Image upload failed: " + e.getMessage());
+                System.out.println(" Image upload failed: " + e.getMessage());
             }
         }
 
@@ -82,7 +82,7 @@ public class PropertyController {
         newProperty.setUserId(seller.getId());
 
         propertyService.addProperty(newProperty);
-        System.out.println("✅ New Property Listed: " + title + " by Seller ID: " + seller.getId());
+        System.out.println("New Property Listed: " + title + " by Seller ID: " + seller.getId());
 
         return "redirect:/seller-dashboard";
     }
@@ -95,7 +95,7 @@ public class PropertyController {
         Property property = propertyService.getPropertyById(id);
 
         if (property == null || !property.getUserId().equals(user.getId())) {
-            System.out.println("🚨 Unauthorized edit attempt blocked!");
+            System.out.println(" Unauthorized edit attempt blocked!");
             return "redirect:/seller-dashboard";
         }
 
@@ -123,7 +123,7 @@ public class PropertyController {
             existing.setPrice(price);
             existing.setStatus(status);
             propertyService.addProperty(existing);
-            System.out.println("✅ Property Updated: " + title);
+            System.out.println(" Property Updated: " + title);
         }
 
         return "redirect:/seller-dashboard";
@@ -138,9 +138,9 @@ public class PropertyController {
 
         if (property != null && property.getUserId().equals(user.getId())) {
             propertyService.removeProperty(id);
-            System.out.println("🗑️ Property " + id + " deleted by Seller " + user.getUsername());
+            System.out.println("🗑 Property " + id + " deleted by Seller " + user.getUsername());
         } else {
-            System.out.println("🚨 Unauthorized delete attempt blocked for Property ID: " + id);
+            System.out.println(" Unauthorized delete attempt blocked for Property ID: " + id);
         }
 
         return "redirect:/seller-dashboard";

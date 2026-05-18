@@ -16,7 +16,7 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    // --- 1. SHOW THE PAGES ---
+    //  SHOW THE PAGES
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
@@ -27,7 +27,7 @@ public class AuthController {
         return "register";
     }
 
-    // --- 2. HANDLE SIGN UP ---
+    //  HANDLE SIGN UP
     @PostMapping("/register")
     public String processRegistration(
             @RequestParam String username,
@@ -40,11 +40,11 @@ public class AuthController {
         User newUser = new User(userId, username, email, password, phone, "Not Provided", role, "default.png", "Active");
         userService.registerUser(newUser);
 
-        System.out.println("✅ Registration processed for: " + username);
+        System.out.println(" Registration processed for: " + username);
         return "redirect:/login";
     }
 
-    // --- 3. HANDLE LOG IN ---
+    // HANDLE LOG IN
     @PostMapping("/login")
     public String processLogin(
             @RequestParam String email,
@@ -56,7 +56,7 @@ public class AuthController {
 
         if (user != null) {
             session.setAttribute("loggedInUser", user);
-            System.out.println("✅ Session started for: " + user.getUsername());
+            System.out.println(" Session started for: " + user.getUsername());
 
             if (user.getRole().equalsIgnoreCase("SELLER")) {
                 return "redirect:/seller-dashboard";
@@ -71,11 +71,11 @@ public class AuthController {
         }
     }
 
-    // --- 4. HANDLE LOG OUT ---
+    // HANDLE LOG OUT
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        System.out.println("👋 User Logged Out");
+        System.out.println(" User Logged Out");
         return "redirect:/";
     }
 }

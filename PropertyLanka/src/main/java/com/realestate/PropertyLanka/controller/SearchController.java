@@ -38,7 +38,7 @@ public class SearchController {
         model.addAttribute("maxPrice",     maxPrice);
         model.addAttribute("sort",         sort);
 
-        // Filter — all filters are optional, shows everything if none selected
+        //  shows everything if none selected
         List<Property> results = propertyService.getAllProperties().stream()
             .filter(p -> matchesKeyword(p, keyword))
             .filter(p -> matchesAddress(p, address))
@@ -47,13 +47,13 @@ public class SearchController {
             .filter(p -> matchesMaxPrice(p, maxPrice))
             .collect(Collectors.toList());
 
-        // Sort using OOP Comparators
+        // Sort
         if ("price_asc".equals(sort)) {
             results.sort(new PriceAscComparator());
         } else if ("price_desc".equals(sort)) {
             results.sort(new PriceDescComparator());
         } else {
-            // "newest" — reverse order (latest added first)
+
             Collections.reverse(results);
         }
 

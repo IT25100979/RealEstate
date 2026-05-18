@@ -19,7 +19,7 @@ public class InquiryController {
     @Autowired
     private InquiryService inquiryService;
 
-    // --- BUYER SENDS INQUIRY ---
+    //Buyer Send inquiry
     @PostMapping("/send-inquiry")
     public String processSendInquiry(
             @RequestParam String propertyId,
@@ -42,7 +42,7 @@ public class InquiryController {
         return "redirect:/view-property/" + propertyId + "?success";
     }
 
-    // --- SELLER MARKS INQUIRY AS READ ---
+    // sellers inquire read
     @GetMapping("/mark-read/{id}")
     public String markInquiryAsRead(@PathVariable String id, HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");

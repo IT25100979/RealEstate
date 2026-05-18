@@ -127,7 +127,7 @@
           </button>
         </form>
 
-        <!-- Not logged in -->
+        <! Not logged in >
         <div th:if="${user == null}"
              style="text-align:center;padding:20px;
                       background:rgba(239,68,68,.08);
@@ -140,7 +140,7 @@
           </a>
         </div>
 
-        <!-- Logged in but not a buyer -->
+        <!Logged in but not a buyer>
         <div th:if="${user != null and user.role != 'BUYER'}"
              style="text-align:center;padding:20px;
                       background:var(--pursoft);border:1px solid var(--purborder);
